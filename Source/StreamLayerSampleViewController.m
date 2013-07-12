@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *toggleConnectionButton;
 @property (nonatomic, strong) GNStreamLayer *streamLayer;
+@property (nonatomic, assign) BOOL shouldBeStreaming;
 @end
 
 @implementation StreamLayerSampleViewController
@@ -28,6 +29,9 @@
     [super viewDidLoad];
 
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
+    self.shouldBeStreaming = NO;
+    
+    [self.mapView enableWrapAround];
 
     NSURL *basemapURL = [NSURL URLWithString:kBasemapURL];
     AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:basemapURL];
@@ -46,6 +50,27 @@
     [self.mapView addMapLayer:self.streamLayer];
 
     self.mapView.layerDelegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+-(void)resignActive:(NSNotification *)n
+{
+    [self.streamLayer disconnect];
+}
+
+-(void)becomeActive:(NSNotification *)n
+{
+    if (self.shouldBeStreaming)
+    {
+        [self.streamLayer connect];
+    }
 }
 
 -(void)mapViewDidLoad:(AGSMapView *)mapView
@@ -62,10 +87,12 @@
     if (self.streamLayer.isConnected)
     {
         [self.streamLayer disconnect];
+        self.shouldBeStreaming = NO;
     }
     else
     {
         [self.streamLayer connect];
+        self.shouldBeStreaming = YES;
     }
 }
 
@@ -77,13 +104,17 @@
 -(void)streamLayerDidDisconnect:(GNStreamLayer *)streamLayer withReason:(NSString *)reason
 {
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
-    [self.streamLayer removeAllGraphics];
+    if (!self.shouldBeStreaming)
+    {
+        [self.streamLayer removeAllGraphics];
+    }
 }
 
 -(void)streamLayerDidFailToConnect:(GNStreamLayer *)streamLayer withError:(NSError *)error
 {
     NSLog(@"Failed to connect: %@", error);
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
+    self.shouldBeStreaming = NO;
 }
 
 - (void)viewDidUnload {
