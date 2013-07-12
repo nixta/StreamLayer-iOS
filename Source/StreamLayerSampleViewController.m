@@ -6,12 +6,12 @@
 
 #import "StreamLayerSampleViewController.h"
 #import <ArcGIS/ArcGIS.h>
-#import "GNStreamLayer.h"
+#import "AGSGraphicsLayer+StreamLayer.h"
 
-@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, GNSteamLayerDelegate>
+@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate>
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *toggleConnectionButton;
-@property (nonatomic, strong) GNStreamLayer *streamLayer;
+@property (nonatomic, strong) AGSGraphicsLayer *streamLayer;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
 @end
 
@@ -37,10 +37,10 @@
     AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:basemapURL];
     
     [self.mapView addMapLayer:basemapLayer];
-
-    self.streamLayer = [[GNStreamLayer alloc] initWithURL:kStreamURL purgeCount:5000];
-    self.streamLayer.streamDelegate = self;
     
+    self.streamLayer = [AGSGraphicsLayer graphicsLayerWithStreamingURL:kStreamURL purgeCount:5000];
+    self.streamLayer.streamServiceDelegate = self;
+
     AGSSimpleMarkerSymbol *s = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor orangeColor]];
     s.size = CGSizeMake(2, 2);
     s.outline = nil;
@@ -96,12 +96,12 @@
     }
 }
 
--(void)streamLayerDidConnect:(GNStreamLayer *)streamLayer
+-(void)streamServiceDidConnect:(AGSStreamServiceAdaptor *)streamLayer
 {
     [self.toggleConnectionButton setTitle:kDisconnectText forState:UIControlStateNormal];
 }
 
--(void)streamLayerDidDisconnect:(GNStreamLayer *)streamLayer withReason:(NSString *)reason
+-(void)streamServiceDidDisconnect:(AGSStreamServiceAdaptor *)streamLayer withReason:(NSString *)reason
 {
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
     if (!self.shouldBeStreaming)
@@ -110,7 +110,7 @@
     }
 }
 
--(void)streamLayerDidFailToConnect:(GNStreamLayer *)streamLayer withError:(NSError *)error
+-(void)streamServiceDidFailToConnect:(AGSStreamServiceAdaptor *)streamLayer withError:(NSError *)error
 {
     NSLog(@"Failed to connect: %@", error);
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
@@ -118,7 +118,7 @@
 }
 
 - (void)viewDidUnload {
-    [self.streamLayer disconnect];
+//    [self.streamLayer disconnect];
     [self setToggleConnectionButton:nil];
     [super viewDidUnload];
 }

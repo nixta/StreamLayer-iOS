@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65D5B926178F69F700FBC679 /* GNStreamLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B925178F69F700FBC679 /* GNStreamLayer.m */; };
+		650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */; };
+		65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */; };
 		65D5B945178F713600FBC679 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B943178F6DBA00FBC679 /* libSocketRocket.a */; };
 		65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B946178F714200FBC679 /* CFNetwork.framework */; };
 		65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B948178F714C00FBC679 /* libicucore.dylib */; };
@@ -48,8 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		65D5B924178F69F700FBC679 /* GNStreamLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNStreamLayer.h; sourceTree = "<group>"; };
-		65D5B925178F69F700FBC679 /* GNStreamLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNStreamLayer.m; sourceTree = "<group>"; };
+		65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+StreamLayer.h"; sourceTree = "<group>"; };
+		65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+StreamLayer.m"; sourceTree = "<group>"; };
+		65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSStreamServiceAdaptor.h; sourceTree = "<group>"; };
+		65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSStreamServiceAdaptor.m; sourceTree = "<group>"; };
 		65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = Submodules/SocketRocket/SocketRocket.xcodeproj; sourceTree = SOURCE_ROOT; };
 		65D5B946178F714200FBC679 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		65D5B948178F714C00FBC679 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -167,8 +170,10 @@
 				D9F3D1CB1668271A00FB6A8D /* StreamLayerSampleViewController.h */,
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
 				65D5B94A178F8E0C00FBC679 /* SRWebSocket.h */,
-				65D5B924178F69F700FBC679 /* GNStreamLayer.h */,
-				65D5B925178F69F700FBC679 /* GNStreamLayer.m */,
+				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
+				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
+				65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */,
+				65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */,
 				D9F3D1B41668271A00FB6A8D /* Supporting Files */,
 				65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */,
 			);
@@ -279,10 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */,
 				D9F3D1BA1668271A00FB6A8D /* main.m in Sources */,
 				D9F3D1BE1668271A00FB6A8D /* StreamLayerSampleAppDelegate.m in Sources */,
 				D9F3D1CD1668271A00FB6A8D /* StreamLayerSampleViewController.m in Sources */,
-				65D5B926178F69F700FBC679 /* GNStreamLayer.m in Sources */,
+				65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
