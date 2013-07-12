@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		65D5B926178F69F700FBC679 /* GNStreamLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B925178F69F700FBC679 /* GNStreamLayer.m */; };
+		65D5B945178F713600FBC679 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B943178F6DBA00FBC679 /* libSocketRocket.a */; };
+		65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B946178F714200FBC679 /* CFNetwork.framework */; };
+		65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B948178F714C00FBC679 /* libicucore.dylib */; };
 		D9A8B11916BB27B9001653EE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11816BB27B9001653EE /* libc++.dylib */; };
 		D9A8B11B16BB27BF001653EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11A16BB27BF001653EE /* OpenGLES.framework */; };
 		D9F3D1AE1668271A00FB6A8D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1AD1668271A00FB6A8D /* UIKit.framework */; };
@@ -34,12 +37,26 @@
 		E158FFBD16FE6141009BC1C6 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E158FFBC16FE6141009BC1C6 /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		65D5B942178F6DBA00FBC679 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6B2082D1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		65D5B924178F69F700FBC679 /* GNStreamLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNStreamLayer.h; sourceTree = "<group>"; };
 		65D5B925178F69F700FBC679 /* GNStreamLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNStreamLayer.m; sourceTree = "<group>"; };
+		65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = Submodules/SocketRocket/SocketRocket.xcodeproj; sourceTree = SOURCE_ROOT; };
+		65D5B946178F714200FBC679 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		65D5B948178F714C00FBC679 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		65D5B94A178F8E0C00FBC679 /* SRWebSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SRWebSocket.h; path = Submodules/SocketRocket/SocketRocket/SRWebSocket.h; sourceTree = SOURCE_ROOT; };
 		D9A8B11816BB27B9001653EE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		D9A8B11A16BB27BF001653EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		D9F3D1A91668271A00FB6A8D /* Basemap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Basemap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9F3D1A91668271A00FB6A8D /* StreamLayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamLayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F3D1AD1668271A00FB6A8D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D9F3D1AF1668271A00FB6A8D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D9F3D1B11668271A00FB6A8D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -73,6 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */,
+				65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */,
+				65D5B945178F713600FBC679 /* libSocketRocket.a in Frameworks */,
 				D9A8B11B16BB27BF001653EE /* OpenGLES.framework in Frameworks */,
 				D9A8B11916BB27B9001653EE /* libc++.dylib in Frameworks */,
 				D9F3D1B21668271A00FB6A8D /* CoreGraphics.framework in Frameworks */,
@@ -91,6 +111,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65D5B93F178F6DBA00FBC679 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65D5B943178F6DBA00FBC679 /* libSocketRocket.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D9F3D19E1668271900FB6A8D = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +131,7 @@
 		D9F3D1AA1668271A00FB6A8D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D9F3D1A91668271A00FB6A8D /* Basemap.app */,
+				D9F3D1A91668271A00FB6A8D /* StreamLayer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +139,8 @@
 		D9F3D1AC1668271A00FB6A8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65D5B948178F714C00FBC679 /* libicucore.dylib */,
+				65D5B946178F714200FBC679 /* CFNetwork.framework */,
 				D9F3D1B11668271A00FB6A8D /* CoreGraphics.framework */,
 				D9F3D1D3166828A600FB6A8D /* CoreLocation.framework */,
 				D9F3D1D4166828A600FB6A8D /* CoreText.framework */,
@@ -136,9 +166,11 @@
 				D9F3D1C81668271A00FB6A8D /* MainStoryboard_iPad.storyboard */,
 				D9F3D1CB1668271A00FB6A8D /* StreamLayerSampleViewController.h */,
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
+				65D5B94A178F8E0C00FBC679 /* SRWebSocket.h */,
 				65D5B924178F69F700FBC679 /* GNStreamLayer.h */,
 				65D5B925178F69F700FBC679 /* GNStreamLayer.m */,
 				D9F3D1B41668271A00FB6A8D /* Supporting Files */,
+				65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */,
 			);
 			path = Source;
 			sourceTree = SOURCE_ROOT;
@@ -177,7 +209,7 @@
 			);
 			name = StreamLayer;
 			productName = Basemaps;
-			productReference = D9F3D1A91668271A00FB6A8D /* Basemap.app */;
+			productReference = D9F3D1A91668271A00FB6A8D /* StreamLayer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -200,12 +232,28 @@
 			mainGroup = D9F3D19E1668271900FB6A8D;
 			productRefGroup = D9F3D1AA1668271A00FB6A8D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 65D5B93F178F6DBA00FBC679 /* Products */;
+					ProjectRef = 65D5B93E178F6DBA00FBC679 /* SocketRocket.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D9F3D1A81668271A00FB6A8D /* StreamLayer */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		65D5B943178F6DBA00FBC679 /* libSocketRocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSocketRocket.a;
+			remoteRef = 65D5B942178F6DBA00FBC679 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D9F3D1A71668271A00FB6A8D /* Resources */ = {
@@ -336,7 +384,7 @@
 					"-framework",
 					ArcGIS,
 				);
-				PRODUCT_NAME = Basemap;
+				PRODUCT_NAME = StreamLayer;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -355,7 +403,7 @@
 					"-framework",
 					ArcGIS,
 				);
-				PRODUCT_NAME = Basemap;
+				PRODUCT_NAME = StreamLayer;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
