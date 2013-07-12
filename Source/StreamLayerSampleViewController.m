@@ -1,18 +1,15 @@
-
-
-
-
-
-
 #import "StreamLayerSampleViewController.h"
 #import <ArcGIS/ArcGIS.h>
 #import "AGSGraphicsLayer+StreamLayer.h"
+#import "AGSFlightGraphic.h"
 
 @interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate>
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *toggleConnectionButton;
 @property (nonatomic, strong) AGSGraphicsLayer *streamLayer;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
+
+@property (nonatomic, strong) NSMutableDictionary *flights;
 @end
 
 @implementation StreamLayerSampleViewController
@@ -30,6 +27,7 @@
 
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
     self.shouldBeStreaming = NO;
+    self.flights = [NSMutableDictionary dictionary];
     
     [self.mapView enableWrapAround];
 
@@ -39,13 +37,8 @@
     [self.mapView addMapLayer:basemapLayer];
     
     self.streamLayer = [AGSGraphicsLayer graphicsLayerWithStreamingURL:kStreamURL purgeCount:5000];
+    self.streamLayer.shouldManageFeaturesWhenStreaming = NO;
     self.streamLayer.streamServiceDelegate = self;
-
-    AGSSimpleMarkerSymbol *s = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor orangeColor]];
-    s.size = CGSizeMake(2, 2);
-    s.outline = nil;
-    AGSSimpleRenderer *r = [AGSSimpleRenderer simpleRendererWithSymbol:s];
-    self.streamLayer.renderer = r;
     
     [self.mapView addMapLayer:self.streamLayer];
 
@@ -53,6 +46,24 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
+}
+
+-(void)onStreamServiceMessage:(NSArray *)update
+{
+    // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
+    // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
+    // honoured.
+    for (AGSGraphic *flightUpdateGraphic in update)
+    {
+        AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
+                                                   consideringRawGraphic:flightUpdateGraphic];
+        if (![self.streamLayer.graphics containsObject:f])
+        {
+            [self.streamLayer addGraphic:f.trail];
+            [self.streamLayer addGraphic:f.track];
+            [self.streamLayer addGraphic:f];
+        }
+    }
 }
 
 -(BOOL)prefersStatusBarHidden

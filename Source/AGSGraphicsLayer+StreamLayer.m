@@ -104,14 +104,21 @@
 
 -(void)onStreamServiceMessage:(NSArray *)update
 {
+    for (AGSGraphic *g in update) {
+        g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
+                                                             toSpatialReference:self.mapView.spatialReference];
+    }
+    NSLog(@"%@", self.mapView.spatialReference);
+
     if (self.shouldManageFeaturesWhenStreaming)
     {
-        for (AGSGraphic *g in update) {
-            g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
-                                                                 toSpatialReference:self.spatialReference];
-        }
         [self addGraphics:update];
         [self _purge];
+    }
+    
+    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(onStreamServiceMessage:)])
+    {
+        [self.streamServiceDelegate onStreamServiceMessage:update];
     }
 }
 
