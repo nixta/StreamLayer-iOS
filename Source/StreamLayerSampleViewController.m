@@ -1,18 +1,15 @@
-
-
-
-
-
-
 #import "StreamLayerSampleViewController.h"
 #import <ArcGIS/ArcGIS.h>
-#import "GNStreamLayer.h"
+#import "AGSGraphicsLayer+StreamLayer.h"
+#import "AGSFlightGraphic.h"
 
-@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, GNSteamLayerDelegate>
+@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate>
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIButton *toggleConnectionButton;
-@property (nonatomic, strong) GNStreamLayer *streamLayer;
+@property (nonatomic, strong) AGSGraphicsLayer *streamLayer;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
+
+@property (nonatomic, strong) NSMutableDictionary *flights;
 @end
 
 @implementation StreamLayerSampleViewController
@@ -30,6 +27,7 @@
 
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
     self.shouldBeStreaming = NO;
+    self.flights = [NSMutableDictionary dictionary];
     
     [self.mapView enableWrapAround];
 
@@ -37,15 +35,10 @@
     AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:basemapURL];
     
     [self.mapView addMapLayer:basemapLayer];
-
-    self.streamLayer = [[GNStreamLayer alloc] initWithURL:kStreamURL purgeCount:5000];
-    self.streamLayer.streamDelegate = self;
     
-    AGSSimpleMarkerSymbol *s = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor orangeColor]];
-    s.size = CGSizeMake(2, 2);
-    s.outline = nil;
-    AGSSimpleRenderer *r = [AGSSimpleRenderer simpleRendererWithSymbol:s];
-    self.streamLayer.renderer = r;
+    self.streamLayer = [AGSGraphicsLayer graphicsLayerWithStreamingURL:kStreamURL purgeCount:5000];
+    self.streamLayer.shouldManageFeaturesWhenStreaming = NO;
+    self.streamLayer.streamServiceDelegate = self;
     
     [self.mapView addMapLayer:self.streamLayer];
 
@@ -53,6 +46,24 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
+}
+
+-(void)onStreamServiceMessage:(NSArray *)update
+{
+    // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
+    // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
+    // honoured.
+    for (AGSGraphic *flightUpdateGraphic in update)
+    {
+        AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
+                                                   consideringRawGraphic:flightUpdateGraphic];
+        if (![self.streamLayer.graphics containsObject:f])
+        {
+            [self.streamLayer addGraphic:f.trail];
+            [self.streamLayer addGraphic:f.track];
+            [self.streamLayer addGraphic:f];
+        }
+    }
 }
 
 -(BOOL)prefersStatusBarHidden
@@ -96,12 +107,12 @@
     }
 }
 
--(void)streamLayerDidConnect:(GNStreamLayer *)streamLayer
+-(void)streamServiceDidConnect:(AGSStreamServiceAdaptor *)streamLayer
 {
     [self.toggleConnectionButton setTitle:kDisconnectText forState:UIControlStateNormal];
 }
 
--(void)streamLayerDidDisconnect:(GNStreamLayer *)streamLayer withReason:(NSString *)reason
+-(void)streamServiceDidDisconnect:(AGSStreamServiceAdaptor *)streamLayer withReason:(NSString *)reason
 {
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
     if (!self.shouldBeStreaming)
@@ -110,7 +121,7 @@
     }
 }
 
--(void)streamLayerDidFailToConnect:(GNStreamLayer *)streamLayer withError:(NSError *)error
+-(void)streamServiceDidFailToConnect:(AGSStreamServiceAdaptor *)streamLayer withError:(NSError *)error
 {
     NSLog(@"Failed to connect: %@", error);
     [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
@@ -118,7 +129,7 @@
 }
 
 - (void)viewDidUnload {
-    [self.streamLayer disconnect];
+//    [self.streamLayer disconnect];
     [self setToggleConnectionButton:nil];
     [super viewDidUnload];
 }
