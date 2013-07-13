@@ -129,7 +129,6 @@
 }
 
 - (void)viewDidUnload {
-//    [self.streamLayer disconnect];
     [self setToggleConnectionButton:nil];
     [super viewDidUnload];
 }

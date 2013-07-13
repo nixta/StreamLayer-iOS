@@ -32,7 +32,6 @@
     }
     else
     {
-        NSLog(@"Found existing graphic. Updating...");
         [existingGraphic updateWithLatestPositionGraphic:rawGraphic];
     }
     
@@ -109,28 +108,11 @@
     AGSPoint *latestPoint = [latestPositionUpdate.geometry copy];
     
     // Use it to extend the trail.
-//    if (!self.trail)
-//    {
-//        AGSMutablePolyline *trailLine = [[AGSMutablePolyline alloc] initWithSpatialReference:self.geometry.spatialReference];
-//        [trailLine addPathToPolyline];
-//        [trailLine addPointToPath:(AGSPoint *)self.geometry];
-//        [(AGSMutablePolyline *)self.trail.geometry addPointToPath:latestPoint];
-//    }
-//    else
-//    {
-        [(AGSMutablePolyline *)self.trail.geometry addPointToPath:latestPoint];
-        self.trail.geometry = self.trail.geometry;
-//    }
-    
-    // And use it to extend the track
-//    if (!self.track)
-//    {
-//    }
-//    else
-//    {
-        [(AGSMutableMultipoint *)self.track.geometry addPoint:latestPoint];
-        self.track.geometry = self.track.geometry;
-//    }
+    [(AGSMutablePolyline *)self.trail.geometry addPointToPath:latestPoint];
+    self.trail.geometry = self.trail.geometry;
+
+    [(AGSMutableMultipoint *)self.track.geometry addPoint:latestPoint];
+    self.track.geometry = self.track.geometry;
     
     // And use it to show the latest point
     self.geometry = latestPoint;

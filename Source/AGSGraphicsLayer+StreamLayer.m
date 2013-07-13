@@ -108,7 +108,6 @@
         g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
                                                              toSpatialReference:self.mapView.spatialReference];
     }
-    NSLog(@"%@", self.mapView.spatialReference);
 
     if (self.shouldManageFeaturesWhenStreaming)
     {
