@@ -5,6 +5,8 @@ A Streaming Layer extension to the ArcGIS Runtime SDK for iOS.
 
 This library provides an AGSLayer class to consume streaming layers by supporting WebSockets, receiving messages, and adding features to the map.
 
+It also provides a demo application.
+
 See [StreamLayer-js](https://github.com/ArcGIS/StreamLayer-js) for detailed discussion and browser-based demos.
 
 
