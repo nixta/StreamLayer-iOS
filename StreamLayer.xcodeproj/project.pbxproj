@@ -12,6 +12,7 @@
 		65D5B945178F713600FBC679 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B943178F6DBA00FBC679 /* libSocketRocket.a */; };
 		65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B946178F714200FBC679 /* CFNetwork.framework */; };
 		65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B948178F714C00FBC679 /* libicucore.dylib */; };
+		65F1AAD017909C990069BAE1 /* AGSFlightGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = 65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */; };
 		D9A8B11916BB27B9001653EE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11816BB27B9001653EE /* libc++.dylib */; };
 		D9A8B11B16BB27BF001653EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11A16BB27BF001653EE /* OpenGLES.framework */; };
 		D9F3D1AE1668271A00FB6A8D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1AD1668271A00FB6A8D /* UIKit.framework */; };
@@ -57,6 +58,8 @@
 		65D5B946178F714200FBC679 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		65D5B948178F714C00FBC679 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		65D5B94A178F8E0C00FBC679 /* SRWebSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SRWebSocket.h; path = Submodules/SocketRocket/SocketRocket/SRWebSocket.h; sourceTree = SOURCE_ROOT; };
+		65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSFlightGraphic.h; sourceTree = "<group>"; };
+		65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGSFlightGraphic.m; sourceTree = "<group>"; };
 		D9A8B11816BB27B9001653EE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		D9A8B11A16BB27BF001653EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		D9F3D1A91668271A00FB6A8D /* StreamLayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamLayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +172,8 @@
 				D9F3D1C81668271A00FB6A8D /* MainStoryboard_iPad.storyboard */,
 				D9F3D1CB1668271A00FB6A8D /* StreamLayerSampleViewController.h */,
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
+				65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */,
+				65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */,
 				65D5B94A178F8E0C00FBC679 /* SRWebSocket.h */,
 				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
 				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
@@ -286,6 +291,7 @@
 			files = (
 				650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */,
 				D9F3D1BA1668271A00FB6A8D /* main.m in Sources */,
+				65F1AAD017909C990069BAE1 /* AGSFlightGraphic.m in Sources */,
 				D9F3D1BE1668271A00FB6A8D /* StreamLayerSampleAppDelegate.m in Sources */,
 				D9F3D1CD1668271A00FB6A8D /* StreamLayerSampleViewController.m in Sources */,
 				65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */,
