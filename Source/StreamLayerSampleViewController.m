@@ -53,12 +53,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
 }
 
--(void)onStreamServiceMessage:(NSArray *)update
+-(void)onStreamServiceMessageCreateFeatures:(NSArray *)features
 {
     // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
     // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
     // honoured.
-    for (AGSGraphic *flightUpdateGraphic in update)
+    for (AGSGraphic *flightUpdateGraphic in features)
     {
         // Note, we configured the StreamLayer not to project geometries from the raw
         // stream before presenting them to us back up in viewDidLoad...

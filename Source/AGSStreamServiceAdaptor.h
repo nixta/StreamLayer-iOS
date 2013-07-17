@@ -13,7 +13,9 @@
 
 @protocol AGSStreamServiceDelegate <NSObject>
 @optional
--(void)onStreamServiceMessage:(NSArray *)update;
+-(void)onStreamServiceMessageCreateFeatures:(NSArray *)features;
+-(void)onStreamServiceMessageUpdateFeatures:(NSArray *)features;
+-(void)onStreamServiceMessageDeleteFeatures:(NSArray *)features;
 
 -(void)streamServiceDidConnect:(AGSStreamServiceAdaptor *)serviceAdaptor;
 -(void)streamServiceDidFail:(AGSStreamServiceAdaptor *)serviceAdaptor withError:(NSError *)error;
