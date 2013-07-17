@@ -1,6 +1,6 @@
 #import "StreamLayerSampleViewController.h"
 #import <ArcGIS/ArcGIS.h>
-#import "AGSGraphicsLayer+StreamLayer.h"
+#import "AGSStreamServiceAdaptor.h"
 #import "AGSFlightGraphic.h"
 
 @interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate, AGSMapViewTouchDelegate>
@@ -11,14 +11,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
 
 @property (nonatomic, strong) AGSGraphicsLayer *streamLayer;
+@property (nonatomic, strong) AGSStreamServiceAdaptor *stream;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
 
 @property (nonatomic, strong) NSMutableDictionary *flights;
 @end
 
 @implementation StreamLayerSampleViewController
-//#define kBasemapURL @"http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"
-//#define kBasemapURL @"http://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/2"
 #define kBasemapURL @"http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer"
 #define kStreamURL @"ws://ec2-107-21-212-168.compute-1.amazonaws.com:8080/asdiflight"
 
@@ -40,10 +39,10 @@
     
     [self.mapView addMapLayer:basemapLayer];
     
-    self.streamLayer = [AGSGraphicsLayer graphicsLayerWithStreamingURL:kStreamURL purgeCount:5000];
-    self.streamLayer.shouldManageFeaturesWhenStreaming = NO;
-    self.streamLayer.streamServiceDelegate = self;
-    self.streamLayer.doNotProjectStreamDataToLayer = YES;
+    self.stream = [[AGSStreamServiceAdaptor alloc] initWithURL:kStreamURL purgeCount:5000];
+    self.stream.delegate = self;
+    
+    self.streamLayer = [AGSGraphicsLayer graphicsLayer];
     
     [self.mapView addMapLayer:self.streamLayer];
 
@@ -59,43 +58,40 @@
     // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
     // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
     // honoured.
-    if (!self.streamLayer.shouldManageFeaturesWhenStreaming)
+    for (AGSGraphic *flightUpdateGraphic in update)
     {
-        for (AGSGraphic *flightUpdateGraphic in update)
+        // Note, we configured the StreamLayer not to project geometries from the raw
+        // stream before presenting them to us back up in viewDidLoad...
+        AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
+                                                   consideringRawGraphic:flightUpdateGraphic
+                                                     forSpatialReference:self.mapView.spatialReference];
+        if (![self.streamLayer.graphics containsObject:f])
         {
-            // Note, we configured the StreamLayer not to project geometries from the raw
-            // stream before presenting them to us back up in viewDidLoad...
-            AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
-                                                       consideringRawGraphic:flightUpdateGraphic
-                                                         forSpatialReference:self.mapView.spatialReference];
-            if (![self.streamLayer.graphics containsObject:f])
-            {
-                [self.streamLayer addGraphic:f.trail];
-                [self.streamLayer addGraphic:f.track];
-                [self.streamLayer addGraphic:f];
-            }
+            [self.streamLayer addGraphic:f.trail];
+            [self.streamLayer addGraphic:f.track];
+            [self.streamLayer addGraphic:f];
         }
-        
-        NSUInteger recentlyUpdatedFlights = 0;
-        NSTimeInterval recencyThreshold = 40; // seconds
-        NSDate *now = [NSDate date];
-        for (AGSFlightGraphic *f in self.flights.allValues)
-        {
-            NSTimeInterval timeSinceUpdate = [now timeIntervalSinceDate:f.lastUpdateTime];
-            if (timeSinceUpdate < recencyThreshold)
-            {
-                recentlyUpdatedFlights++;
-                f.isFaded = NO;
-            }
-            else if (!f.isFaded)
-            {
-                f.isFaded = YES;
-//                NSLog(@"Fading flight %@ which was last updated %f seconds ago", f.flightNumber, timeSinceUpdate);
-            }
-        }
-        
-        self.trackingLabel.text = [NSString stringWithFormat:@"Tracking %d of %d flights", recentlyUpdatedFlights, self.flights.count];
     }
+    
+    NSUInteger recentlyUpdatedFlights = 0;
+    NSTimeInterval recencyThreshold = 40; // seconds
+    NSDate *now = [NSDate date];
+    for (AGSFlightGraphic *f in self.flights.allValues)
+    {
+        NSTimeInterval timeSinceUpdate = [now timeIntervalSinceDate:f.lastUpdateTime];
+        if (timeSinceUpdate < recencyThreshold)
+        {
+            recentlyUpdatedFlights++;
+            f.isFaded = NO;
+        }
+        else if (!f.isFaded)
+        {
+            f.isFaded = YES;
+            //                NSLog(@"Fading flight %@ which was last updated %f seconds ago", f.flightNumber, timeSinceUpdate);
+        }
+    }
+    
+    self.trackingLabel.text = [NSString stringWithFormat:@"Tracking %d of %d flights", recentlyUpdatedFlights, self.flights.count];
 }
 
 -(BOOL)prefersStatusBarHidden
@@ -105,14 +101,14 @@
 
 -(void)resignActive:(NSNotification *)n
 {
-    [self.streamLayer disconnect];
+    [self.stream disconnect];
 }
 
 -(void)becomeActive:(NSNotification *)n
 {
     if (self.shouldBeStreaming)
     {
-        [self.streamLayer connect];
+        [self.stream connect];
     }
 }
 
@@ -127,20 +123,17 @@
 }
 
 - (IBAction)toggleConnection:(id)sender {
-    if (self.streamLayer.isConnected)
+    if (self.stream.isConnected)
     {
-        [self.streamLayer disconnect];
+        [self.stream disconnect];
         self.shouldBeStreaming = NO;
         [self.flights removeAllObjects];
-        if (!self.streamLayer.shouldManageFeaturesWhenStreaming)
-        {
-            [self.streamLayer removeAllGraphics];
-        }
+        [self.streamLayer removeAllGraphics];
     }
     else
     {
         [self setButtonText:@"Connecting..."];
-        [self.streamLayer connect];
+        [self.stream connect];
         self.shouldBeStreaming = YES;
     }
 }

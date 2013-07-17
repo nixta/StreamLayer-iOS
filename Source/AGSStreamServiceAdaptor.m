@@ -67,9 +67,9 @@
 {
     _isConnected = YES;
     
-    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(streamServiceDidConnect:)])
+    if (self.delegate && [self.delegate respondsToSelector:@selector(streamServiceDidConnect:)])
     {
-        [self.streamServiceDelegate streamServiceDidConnect:self];
+        [self.delegate streamServiceDidConnect:self];
     }
 }
 
@@ -77,9 +77,9 @@
 {
     NSLog(@"WebSocket error: %@", error);
     _isConnected = NO;
-    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(streamServiceDidFail:withError:)])
+    if (self.delegate && [self.delegate respondsToSelector:@selector(streamServiceDidFail:withError:)])
     {
-        [self.streamServiceDelegate streamServiceDidFail:self withError:error];
+        [self.delegate streamServiceDidFail:self withError:error];
     }
 }
 
@@ -87,15 +87,15 @@
 {
     NSLog(@"WebSocket Closed: [%d,%@] %@", code, reason, wasClean?@"Clean":@"Not Clean");
     _isConnected = NO;
-    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(streamServiceDidDisconnect:withReason:)])
+    if (self.delegate && [self.delegate respondsToSelector:@selector(streamServiceDidDisconnect:withReason:)])
     {
-        [self.streamServiceDelegate streamServiceDidDisconnect:self withReason:reason];
+        [self.delegate streamServiceDidDisconnect:self withReason:reason];
     }
 }
 
 -(void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
-    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(onStreamServiceMessage:)])
+    if (self.delegate && [self.delegate respondsToSelector:@selector(onStreamServiceMessage:)])
     {
         NSError *error = nil;
         id messageObject = [NSJSONSerialization JSONObjectWithData:[(NSString *)message dataUsingEncoding:NSUTF8StringEncoding]
@@ -117,7 +117,7 @@
             [graphics addObject:g];
         }
     
-        [self.streamServiceDelegate onStreamServiceMessage:graphics];
+        [self.delegate onStreamServiceMessage:graphics];
     }
 }
 @end

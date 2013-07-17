@@ -23,7 +23,7 @@
 
 
 @interface AGSStreamServiceAdaptor : AGSGraphicsLayer
-@property (nonatomic, weak) id<AGSStreamServiceDelegate> streamServiceDelegate;
+@property (nonatomic, weak) id<AGSStreamServiceDelegate> delegate;
 @property (nonatomic, readonly) BOOL isConnected;
 
 -(id)initWithURL:(NSString *)url;

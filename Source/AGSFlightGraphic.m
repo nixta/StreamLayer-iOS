@@ -104,25 +104,19 @@
     if (_isFaded != isFaded)
     {
         _isFaded = isFaded;
-        if (isFaded)
-        {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSLog(@"Fading in NSOperationQueue %@", self.flightNumber);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (isFaded)
+            {
                 self.symbol = self.currentPositionSymbolFaded;
                 self.trail.symbol = self.trailSymbolFaded;
                 self.track.symbol = self.trackSymbolFaded;
-            }];
-        }
-        else
-        {
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSLog(@"Un-Fading in NSOperationQueue %@", self.flightNumber);
+            }
+            else
+            {
                 self.symbol = self.currentPositionSymbol;
                 self.trail.symbol = self.trailSymbol;
                 self.track.symbol = self.trackSymbol;
-            }];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
+            }
         });
     }
 }
