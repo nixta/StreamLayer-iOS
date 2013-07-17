@@ -3,9 +3,13 @@
 #import "AGSGraphicsLayer+StreamLayer.h"
 #import "AGSFlightGraphic.h"
 
-@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate>
+@interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate, AGSMapViewTouchDelegate>
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
+
 @property (weak, nonatomic) IBOutlet UIButton *toggleConnectionButton;
+@property (weak, nonatomic) IBOutlet UIView *trackingView;
+@property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
+
 @property (nonatomic, strong) AGSGraphicsLayer *streamLayer;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
 
@@ -25,10 +29,10 @@
 {
     [super viewDidLoad];
 
-    [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
+    [self setButtonText:kConnectText];
     self.shouldBeStreaming = NO;
     self.flights = [NSMutableDictionary dictionary];
-    
+
     [self.mapView enableWrapAround];
 
     NSURL *basemapURL = [NSURL URLWithString:kBasemapURL];
@@ -39,10 +43,12 @@
     self.streamLayer = [AGSGraphicsLayer graphicsLayerWithStreamingURL:kStreamURL purgeCount:5000];
     self.streamLayer.shouldManageFeaturesWhenStreaming = NO;
     self.streamLayer.streamServiceDelegate = self;
+    self.streamLayer.doNotProjectStreamDataToLayer = YES;
     
     [self.mapView addMapLayer:self.streamLayer];
 
     self.mapView.layerDelegate = self;
+    self.mapView.touchDelegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
@@ -53,16 +59,42 @@
     // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
     // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
     // honoured.
-    for (AGSGraphic *flightUpdateGraphic in update)
+    if (!self.streamLayer.shouldManageFeaturesWhenStreaming)
     {
-        AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
-                                                   consideringRawGraphic:flightUpdateGraphic];
-        if (![self.streamLayer.graphics containsObject:f])
+        for (AGSGraphic *flightUpdateGraphic in update)
         {
-            [self.streamLayer addGraphic:f.trail];
-            [self.streamLayer addGraphic:f.track];
-            [self.streamLayer addGraphic:f];
+            // Note, we configured the StreamLayer not to project geometries from the raw
+            // stream before presenting them to us back up in viewDidLoad...
+            AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
+                                                       consideringRawGraphic:flightUpdateGraphic
+                                                         forSpatialReference:self.mapView.spatialReference];
+            if (![self.streamLayer.graphics containsObject:f])
+            {
+                [self.streamLayer addGraphic:f.trail];
+                [self.streamLayer addGraphic:f.track];
+                [self.streamLayer addGraphic:f];
+            }
         }
+        
+        NSUInteger recentlyUpdatedFlights = 0;
+        NSTimeInterval recencyThreshold = 40; // seconds
+        NSDate *now = [NSDate date];
+        for (AGSFlightGraphic *f in self.flights.allValues)
+        {
+            NSTimeInterval timeSinceUpdate = [now timeIntervalSinceDate:f.lastUpdateTime];
+            if (timeSinceUpdate < recencyThreshold)
+            {
+                recentlyUpdatedFlights++;
+                f.isFaded = NO;
+            }
+            else if (!f.isFaded)
+            {
+                f.isFaded = YES;
+//                NSLog(@"Fading flight %@ which was last updated %f seconds ago", f.flightNumber, timeSinceUpdate);
+            }
+        }
+        
+        self.trackingLabel.text = [NSString stringWithFormat:@"Tracking %d of %d flights", recentlyUpdatedFlights, self.flights.count];
     }
 }
 
@@ -99,22 +131,52 @@
     {
         [self.streamLayer disconnect];
         self.shouldBeStreaming = NO;
+        [self.flights removeAllObjects];
+        if (!self.streamLayer.shouldManageFeaturesWhenStreaming)
+        {
+            [self.streamLayer removeAllGraphics];
+        }
     }
     else
     {
+        [self setButtonText:@"Connecting..."];
         [self.streamLayer connect];
         self.shouldBeStreaming = YES;
     }
 }
 
+-(void)setButtonText:(NSString *)buttonText
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.toggleConnectionButton setTitle:buttonText forState:UIControlStateNormal];
+    }];
+    
+    if ([buttonText isEqualToString:kConnectText])
+    {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.trackingView.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.trackingView.hidden = YES;
+        }];
+    }
+    else
+    {
+        self.trackingView.hidden = NO;
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.trackingView.alpha = 1;
+                         }];
+    }
+}
+
 -(void)streamServiceDidConnect:(AGSStreamServiceAdaptor *)streamLayer
 {
-    [self.toggleConnectionButton setTitle:kDisconnectText forState:UIControlStateNormal];
+    [self setButtonText:kDisconnectText];
 }
 
 -(void)streamServiceDidDisconnect:(AGSStreamServiceAdaptor *)streamLayer withReason:(NSString *)reason
 {
-    [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
+    [self setButtonText:kConnectText];
     if (!self.shouldBeStreaming)
     {
         [self.streamLayer removeAllGraphics];
@@ -124,7 +186,7 @@
 -(void)streamServiceDidFailToConnect:(AGSStreamServiceAdaptor *)streamLayer withError:(NSError *)error
 {
     NSLog(@"Failed to connect: %@", error);
-    [self.toggleConnectionButton setTitle:kConnectText forState:UIControlStateNormal];
+    [self setButtonText:kConnectText];
     self.shouldBeStreaming = NO;
 }
 

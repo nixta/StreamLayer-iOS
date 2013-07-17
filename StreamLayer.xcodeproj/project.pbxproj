@@ -138,6 +138,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65839AB21791896F009044AE /* AGSStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				65FDE5B61791128C00BB0997 /* SRWebSocket.h */,
+				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
+				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
+				65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */,
+				65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */,
+			);
+			name = AGSStreaming;
+			sourceTree = "<group>";
+		};
 		65FDE5A71791122200BB0997 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,13 +209,9 @@
 				D9F3D1C81668271A00FB6A8D /* MainStoryboard_iPad.storyboard */,
 				D9F3D1CB1668271A00FB6A8D /* StreamLayerSampleViewController.h */,
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
-				65FDE5B61791128C00BB0997 /* SRWebSocket.h */,
 				65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */,
 				65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */,
-				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
-				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
-				65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */,
-				65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */,
+				65839AB21791896F009044AE /* AGSStreaming */,
 				D9F3D1B41668271A00FB6A8D /* Supporting Files */,
 			);
 			path = Source;
@@ -255,6 +263,11 @@
 				CLASSPREFIX = EQS;
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = ESRI;
+				TargetAttributes = {
+					D9F3D1A81668271A00FB6A8D = {
+						DevelopmentTeam = J8UEUYLV27;
+					};
+				};
 			};
 			buildConfigurationList = D9F3D1A31668271900FB6A8D /* Build configuration list for PBXProject "StreamLayer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -430,10 +443,12 @@
 		D9F3D1D11668271A00FB6A8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/StreamLayer-Prefix.pch";
 				INFOPLIST_FILE = "Source/StreamLayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -450,10 +465,12 @@
 		D9F3D1D21668271A00FB6A8D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/SDKs/ArcGIS/iOS/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/StreamLayer-Prefix.pch";
 				INFOPLIST_FILE = "Source/StreamLayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",

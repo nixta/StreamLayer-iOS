@@ -11,6 +11,7 @@
 
 #define kManageKey @"AGSGraphicsLayer_StreamLayer_ShouldManageFeaturesWhenStreaming"
 #define kPurgeCountKey @"AGSGraphicsLayer_StreamLayer_StreamingPurgeCount"
+#define kDoNotProjectKey @"AGSGraphicsLayer_StreamLayer_DoNotProjectStreamingDataToLayer"
 #define kStreamingAdaptor @"AGSGraphicsLayer_StreamLayer_StreamingAdaptorObject"
 #define kStreamingLayerDelegate @"AGSGraphicsLayer_StreamLayer_StreamingLayerDelegate"
 
@@ -25,6 +26,17 @@
 -(void)setShouldManageFeaturesWhenStreaming:(BOOL)shouldManageFeaturesWhenStreaming
 {
     objc_setAssociatedObject(self, kManageKey, [NSNumber numberWithBool:shouldManageFeaturesWhenStreaming], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(BOOL)doNotProjectStreamDataToLayer
+{
+    NSNumber *b = objc_getAssociatedObject(self, kDoNotProjectKey);
+    return b?[b boolValue]:NO;
+}
+
+-(void)setDoNotProjectStreamDataToLayer:(BOOL)doNotProjectStreamDataToLayer
+{
+    objc_setAssociatedObject(self, kDoNotProjectKey, [NSNumber numberWithBool:doNotProjectStreamDataToLayer], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(NSUInteger)purgeCountForStreaming
@@ -71,7 +83,7 @@
 
 +(AGSGraphicsLayer *)graphicsLayerWithStreamingURL:(NSString *)url purgeCount:(NSUInteger)purgeCount
 {
-    AGSGraphicsLayer *newLayer = [AGSGraphicsLayer graphicsLayer];
+    AGSGraphicsLayer *newLayer = [[AGSGraphicsLayer alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
     newLayer.streamingAdaptor = [[AGSStreamServiceAdaptor alloc] initWithURL:url purgeCount:purgeCount];
     newLayer.streamingAdaptor.streamServiceDelegate = newLayer;
     return newLayer;
@@ -104,9 +116,12 @@
 
 -(void)onStreamServiceMessage:(NSArray *)update
 {
-    for (AGSGraphic *g in update) {
-        g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
-                                                             toSpatialReference:self.mapView.spatialReference];
+    if (!self.doNotProjectStreamDataToLayer)
+    {
+        for (AGSGraphic *g in update) {
+            g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
+                                                                 toSpatialReference:self.mapView.spatialReference];
+        }
     }
 
     if (self.shouldManageFeaturesWhenStreaming)
@@ -129,6 +144,10 @@
 -(void)disconnect
 {
     [self.streamingAdaptor disconnect];
+    if (self.shouldManageFeaturesWhenStreaming)
+    {
+        [self removeAllGraphics];
+    }
 }
 
 

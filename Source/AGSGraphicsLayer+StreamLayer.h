@@ -11,6 +11,7 @@
 
 @interface AGSGraphicsLayer (StreamLayer) <AGSStreamServiceDelegate>
 @property (nonatomic, assign) BOOL shouldManageFeaturesWhenStreaming;
+@property (nonatomic, assign) BOOL doNotProjectStreamDataToLayer;
 @property (nonatomic, assign) NSUInteger purgeCountForStreaming;
 @property (nonatomic, strong) id<AGSStreamServiceDelegate> streamServiceDelegate;
 

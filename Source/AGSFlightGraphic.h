@@ -17,9 +17,13 @@
 @property (nonatomic, readonly) double heading;
 @property (nonatomic, strong, readonly) NSDate *lastUpdateTime;
 
-//+(AGSFlightGraphic *)flightGraphicFromGraphic:(AGSGraphic *)rawGraphic;
+@property (atomic, assign) BOOL isFaded;
+
 +(AGSFlightGraphic *)flightGraphicFromFlights:(NSDictionary *)flights
                         consideringRawGraphic:(AGSGraphic *)rawGraphic;
++(AGSFlightGraphic *)flightGraphicFromFlights:(NSDictionary *)flights
+                        consideringRawGraphic:(AGSGraphic *)rawGraphic
+                          forSpatialReference:(AGSSpatialReference *)spatialReference;
 
 -(void)updateWithLatestPositionGraphic:(AGSGraphic *)latestPositionUpdate;
 @end

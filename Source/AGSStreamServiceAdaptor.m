@@ -65,7 +65,6 @@
 
 -(void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
-    NSLog(@"WebSocket Opened OK");
     _isConnected = YES;
     
     if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(streamServiceDidConnect:)])
