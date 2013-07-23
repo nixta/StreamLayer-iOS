@@ -11,26 +11,17 @@
 
 @interface AGSStreamServiceAdaptor () <SRWebSocketDelegate>
 @property (nonatomic, strong) SRWebSocket *socket;
-@property (nonatomic, assign) NSUInteger purgeCount;
 @property (nonatomic, strong) NSURL *connectionURL;
 @end
 
-#define kPurgeCountKey @"purgeCount"
-
 @implementation AGSStreamServiceAdaptor
 -(id)initWithURL:(NSString *)url
-{
-    return [self initWithURL:url purgeCount:0];
-}
-
--(id)initWithURL:(NSString *)url purgeCount:(NSUInteger)purgeCount;
 {
     self = [super init];
     if (self)
     {
         self.connectionURL = [NSURL URLWithString:url];
         _isConnected = NO;
-        self.purgeCount = purgeCount;
     }
     return self;
 }

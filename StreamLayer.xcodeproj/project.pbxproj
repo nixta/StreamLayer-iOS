@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */; };
+		65B66CE01796EADE00C4840B /* AGSStreamLayerOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66CDB1796EAD900C4840B /* AGSStreamLayerOptions.m */; };
+		65B66CE31796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66CE21796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m */; };
+		65B66CE51797018500C4840B /* layerDefinition.json in Resources */ = {isa = PBXBuildFile; fileRef = 65B66CE41797018500C4840B /* layerDefinition.json */; };
+		65B66CE91797210C00C4840B /* FlightTimewindowSampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66CE81797210C00C4840B /* FlightTimewindowSampleViewController.m */; };
+		65B66D39179898DF00C4840B /* AGSMapView+UIKitRestoration.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */; };
+		65CAAAB3179ECA9500712F48 /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 65CAAAB1179ECA9500712F48 /* time.png */; };
+		65CAAAB4179ECA9500712F48 /* time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65CAAAB2179ECA9500712F48 /* time@2x.png */; };
+		65CAAABB179ECB0500712F48 /* plane.png in Resources */ = {isa = PBXBuildFile; fileRef = 65CAAAB9179ECB0500712F48 /* plane.png */; };
+		65CAAABC179ECB0500712F48 /* plane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65CAAABA179ECB0500712F48 /* plane@2x.png */; };
 		65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */; };
 		65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B946178F714200FBC679 /* CFNetwork.framework */; };
 		65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B948178F714C00FBC679 /* libicucore.dylib */; };
@@ -71,8 +80,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		65B66CDA1796EAD900C4840B /* AGSStreamLayerOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSStreamLayerOptions.h; sourceTree = "<group>"; };
+		65B66CDB1796EAD900C4840B /* AGSStreamLayerOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGSStreamLayerOptions.m; sourceTree = "<group>"; };
+		65B66CE11796EC6000C4840B /* AGSFeatureLayer+StreamLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSFeatureLayer+StreamLayer.h"; sourceTree = "<group>"; };
+		65B66CE21796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSFeatureLayer+StreamLayer.m"; sourceTree = "<group>"; };
+		65B66CE41797018500C4840B /* layerDefinition.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = layerDefinition.json; sourceTree = "<group>"; };
+		65B66CE61797019A00C4840B /* featureSet.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = featureSet.json; sourceTree = "<group>"; };
+		65B66CE71797210C00C4840B /* FlightTimewindowSampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightTimewindowSampleViewController.h; sourceTree = "<group>"; };
+		65B66CE81797210C00C4840B /* FlightTimewindowSampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightTimewindowSampleViewController.m; sourceTree = "<group>"; };
+		65B66D37179898DF00C4840B /* AGSMapView+UIKitRestoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGSMapView+UIKitRestoration.h"; sourceTree = "<group>"; };
+		65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+UIKitRestoration.m"; sourceTree = "<group>"; };
 		65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+StreamLayer.h"; sourceTree = "<group>"; };
 		65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+StreamLayer.m"; sourceTree = "<group>"; };
+		65CAAAB1179ECA9500712F48 /* time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = time.png; sourceTree = "<group>"; };
+		65CAAAB2179ECA9500712F48 /* time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time@2x.png"; sourceTree = "<group>"; };
+		65CAAAB9179ECB0500712F48 /* plane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plane.png; sourceTree = "<group>"; };
+		65CAAABA179ECB0500712F48 /* plane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plane@2x.png"; sourceTree = "<group>"; };
 		65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSStreamServiceAdaptor.h; sourceTree = "<group>"; };
 		65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSStreamServiceAdaptor.m; sourceTree = "<group>"; };
 		65D5B946178F714200FBC679 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -144,10 +167,25 @@
 				65FDE5B61791128C00BB0997 /* SRWebSocket.h */,
 				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
 				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
+				65B66CE11796EC6000C4840B /* AGSFeatureLayer+StreamLayer.h */,
+				65B66CE21796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m */,
 				65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */,
 				65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */,
+				65B66CDA1796EAD900C4840B /* AGSStreamLayerOptions.h */,
+				65B66CDB1796EAD900C4840B /* AGSStreamLayerOptions.m */,
+				65B66CE41797018500C4840B /* layerDefinition.json */,
+				65B66CE61797019A00C4840B /* featureSet.json */,
 			);
 			name = AGSStreaming;
+			sourceTree = "<group>";
+		};
+		65CAAAC0179EDC9200712F48 /* UIKit Restoration */ = {
+			isa = PBXGroup;
+			children = (
+				65B66D37179898DF00C4840B /* AGSMapView+UIKitRestoration.h */,
+				65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */,
+			);
+			name = "UIKit Restoration";
 			sourceTree = "<group>";
 		};
 		65FDE5A71791122200BB0997 /* Products */ = {
@@ -211,7 +249,10 @@
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
 				65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */,
 				65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */,
+				65B66CE71797210C00C4840B /* FlightTimewindowSampleViewController.h */,
+				65B66CE81797210C00C4840B /* FlightTimewindowSampleViewController.m */,
 				65839AB21791896F009044AE /* AGSStreaming */,
+				65CAAAC0179EDC9200712F48 /* UIKit Restoration */,
 				D9F3D1B41668271A00FB6A8D /* Supporting Files */,
 			);
 			path = Source;
@@ -220,6 +261,10 @@
 		D9F3D1B41668271A00FB6A8D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				65CAAAB9179ECB0500712F48 /* plane.png */,
+				65CAAABA179ECB0500712F48 /* plane@2x.png */,
+				65CAAAB1179ECA9500712F48 /* time.png */,
+				65CAAAB2179ECA9500712F48 /* time@2x.png */,
 				E158FFBC16FE6141009BC1C6 /* icon@2x.png */,
 				E158FFBA16FE613E009BC1C6 /* icon.png */,
 				D9F3D1E31668293000FB6A8D /* ArcGIS.bundle */,
@@ -329,13 +374,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9F3D1B81668271A00FB6A8D /* InfoPlist.strings in Resources */,
+				65CAAABC179ECB0500712F48 /* plane@2x.png in Resources */,
 				D9F3D1C01668271A00FB6A8D /* Default.png in Resources */,
+				65CAAAB3179ECA9500712F48 /* time.png in Resources */,
 				D9F3D1C21668271A00FB6A8D /* Default@2x.png in Resources */,
 				D9F3D1C41668271A00FB6A8D /* Default-568h@2x.png in Resources */,
 				D9F3D1C71668271A00FB6A8D /* MainStoryboard_iPhone.storyboard in Resources */,
 				D9F3D1CA1668271A00FB6A8D /* MainStoryboard_iPad.storyboard in Resources */,
 				D9F3D1E41668293000FB6A8D /* ArcGIS.bundle in Resources */,
+				65CAAABB179ECB0500712F48 /* plane.png in Resources */,
 				E158FFBB16FE613E009BC1C6 /* icon.png in Resources */,
+				65CAAAB4179ECA9500712F48 /* time@2x.png in Resources */,
+				65B66CE51797018500C4840B /* layerDefinition.json in Resources */,
 				E158FFBD16FE6141009BC1C6 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,12 +397,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65B66CE31796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m in Sources */,
+				65B66CE91797210C00C4840B /* FlightTimewindowSampleViewController.m in Sources */,
 				650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */,
 				D9F3D1BA1668271A00FB6A8D /* main.m in Sources */,
 				65F1AAD017909C990069BAE1 /* AGSFlightGraphic.m in Sources */,
 				D9F3D1BE1668271A00FB6A8D /* StreamLayerSampleAppDelegate.m in Sources */,
 				D9F3D1CD1668271A00FB6A8D /* StreamLayerSampleViewController.m in Sources */,
 				65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */,
+				65B66CE01796EADE00C4840B /* AGSStreamLayerOptions.m in Sources */,
+				65B66D39179898DF00C4840B /* AGSMapView+UIKitRestoration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

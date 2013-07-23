@@ -1,0 +1,59 @@
+{
+    "geometryType": "esriGeometryPoint",
+    "timeInfo": {
+        "startTimeField": "timestamp",
+        "endTimeField": null,
+        "trackIdField": "flight_id",
+        "timeExtent": [
+                       1331922330000,
+                       1331922338000
+                       ],
+        "timeReference": null,
+        "timeInterval": 1,
+        "timeIntervalUnits": "esriTimeUnitsSeconds",
+        "exportOptions": {
+            "useTime": true,
+            "timeDataCumulative": false,
+            "timeOffset": null,
+            "timeOffsetUnits": null
+        },
+        "hasLiveData": true
+    },
+    "fields": [
+               {
+               "name": "ObjectId",
+               "type": "esriFieldTypeOID",
+               "alias": "ObjectId"
+               },
+               {
+               "name": "altitude",
+               "type": "esriFieldTypeInteger",
+               "alias": "altitude"
+               },
+               {
+               "name": "equipment",
+               "type": "esriFieldTypeString",
+               "alias": "equipment"
+               },
+               {
+               "name": "arr_apt",
+               "type": "esriFieldTypeString",
+               "alias": "arr_apt"
+               },
+               {
+               "name": "dep_apt",
+               "type": "esriFieldTypeString",
+               "alias": "dep_apt"
+               },
+               {
+               "name": "timestamp",
+               "type": "esriFieldTypeDate",
+               "alias": "timestamp"
+               },
+               {
+               "name": "flight_id",
+               "type": "esriFieldTypeString",
+               "alias": "flight_id"
+               }
+               ]
+}

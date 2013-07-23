@@ -3,6 +3,16 @@
 #import "AGSStreamServiceAdaptor.h"
 #import "AGSFlightGraphic.h"
 
+#import "AGSFeatureLayer+StreamLayer.h"
+#import "AGSMapView+UIKitRestoration.h"
+
+#define kBasemapURL @"http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer"
+#define kStreamURL @"ws://ec2-107-21-212-168.compute-1.amazonaws.com:8080/asdiflight"
+
+#define kConnectText @"Stream Flight Paths"
+#define kConnectingText @"Connecting…"
+#define kDisconnectText @"Disconnect Stream"
+
 @interface StreamLayerSampleViewController () <AGSMapViewLayerDelegate, AGSStreamServiceDelegate, AGSMapViewTouchDelegate>
 @property (weak, nonatomic) IBOutlet AGSMapView *mapView;
 
@@ -14,16 +24,12 @@
 @property (nonatomic, strong) AGSStreamServiceAdaptor *stream;
 @property (nonatomic, assign) BOOL shouldBeStreaming;
 
+@property (nonatomic, assign) BOOL extentRestored;
+
 @property (nonatomic, strong) NSMutableDictionary *flights;
 @end
 
 @implementation StreamLayerSampleViewController
-#define kBasemapURL @"http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer"
-#define kStreamURL @"ws://ec2-107-21-212-168.compute-1.amazonaws.com:8080/asdiflight"
-
-#define kConnectText @"Stream Flight Paths"
-#define kDisconnectText @"Disconnect Stream Layer"
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,13 +39,14 @@
     self.flights = [NSMutableDictionary dictionary];
 
     [self.mapView enableWrapAround];
+    
 
     NSURL *basemapURL = [NSURL URLWithString:kBasemapURL];
     AGSTiledMapServiceLayer *basemapLayer = [AGSTiledMapServiceLayer tiledMapServiceLayerWithURL:basemapURL];
     
     [self.mapView addMapLayer:basemapLayer];
     
-    self.stream = [[AGSStreamServiceAdaptor alloc] initWithURL:kStreamURL purgeCount:5000];
+    self.stream = [[AGSStreamServiceAdaptor alloc] initWithURL:kStreamURL];
     self.stream.delegate = self;
     
     self.streamLayer = [AGSGraphicsLayer graphicsLayer];
@@ -48,9 +55,7 @@
 
     self.mapView.layerDelegate = self;
     self.mapView.touchDelegate = self;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:@"BecomeActive" object:nil];
+    self.mapView.allowRotationByPinching = YES;
 }
 
 -(void)onStreamServiceMessageCreateFeatures:(NSArray *)features
@@ -99,6 +104,19 @@
     return YES;
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.stream disconnect];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (self.shouldBeStreaming)
+    {
+        [self.stream connect];
+    }
+}
+
 -(void)resignActive:(NSNotification *)n
 {
     [self.stream disconnect];
@@ -114,12 +132,16 @@
 
 -(void)mapViewDidLoad:(AGSMapView *)mapView
 {
-	AGSEnvelope *initExtent = [AGSEnvelope envelopeWithXmin:-16966135.58841464
-													   ymin:2551913.339721252
-													   xmax:-4376555.304442507
-													   ymax:8529100.339721255
-										   spatialReference:[AGSSpatialReference spatialReferenceWithWKID:102100]];
-	[self.mapView zoomToEnvelope:initExtent animated:YES];
+    if (![self.mapView restoreMapViewVisibleArea])
+    {
+        AGSEnvelope *initExtent = [AGSEnvelope envelopeWithXmin:-16966135.58841464
+                                                           ymin:2551913.339721252
+                                                           xmax:-4376555.304442507
+                                                           ymax:8529100.339721255
+                                               spatialReference:[AGSSpatialReference spatialReferenceWithWKID:102100]];
+        [self.mapView zoomToEnvelope:initExtent animated:YES];
+    }
+    NSLog(@"Map View Loaded!!!");
 }
 
 - (IBAction)toggleConnection:(id)sender {
@@ -132,19 +154,21 @@
     }
     else
     {
-        [self setButtonText:@"Connecting..."];
+        [self setButtonText:kConnectText];
         [self.stream connect];
         self.shouldBeStreaming = YES;
     }
 }
 
--(void)setButtonText:(NSString *)buttonText
+-(void)setButtonText:(NSString *)buttonTextKey
 {
+    
     [UIView animateWithDuration:0.2 animations:^{
-        [self.toggleConnectionButton setTitle:buttonText forState:UIControlStateNormal];
+        [self.toggleConnectionButton setTitle:NSLocalizedString(buttonTextKey, nil)
+                                     forState:UIControlStateNormal];
     }];
     
-    if ([buttonText isEqualToString:kConnectText])
+    if ([buttonTextKey isEqualToString:kConnectText])
     {
         [UIView animateWithDuration:0.2 animations:^{
             self.trackingView.alpha = 0;

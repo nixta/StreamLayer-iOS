@@ -1,15 +1,23 @@
 //
-//  AGSGraphicsLayer+StreamLayer.h
+//  AGSFeatureLayer+StreamLayer.h
 //  StreamLayer
 //
-//  Created by Nicholas Furness on 7/12/13.
+//  Created by Nicholas Furness on 7/17/13.
 //  Copyright (c) 2013 ESRI. All rights reserved.
 //
 
 #import <ArcGIS/ArcGIS.h>
 #import "AGSStreamServiceAdaptor.h"
+#import "AGSStreamLayerOptions.h"
 
-@interface AGSGraphicsLayer (StreamLayer)
+@interface AGSFeatureLayer (StreamLayer) <AGSStreamServiceDelegate>
+#pragma mark - Construction
++(AGSFeatureLayer *)streamingFeatureLayerWithOptions:(AGSStreamLayerOptions *)options;
++(AGSFeatureLayer *)streamingFeatureLayerWithUrl:(NSString *)url;
+
+#pragma mark - Properties
+@property (nonatomic, strong, readonly) AGSStreamLayerOptions *streamingOptions;
+
 @property (nonatomic, assign) BOOL shouldManageFeaturesWhenStreaming;
 @property (nonatomic, assign) BOOL doNotProjectStreamDataToLayer;
 @property (nonatomic, assign) NSUInteger purgeCountForStreaming;
@@ -19,9 +27,7 @@
 
 @property (nonatomic, strong) AGSStreamServiceAdaptor *streamingAdaptor;
 
-+(AGSGraphicsLayer *)graphicsLayerWithStreamingURL:(NSString *)url;
-+(AGSGraphicsLayer *)graphicsLayerWithStreamingURL:(NSString *)url purgeCount:(NSUInteger)purgeCount;
-
+#pragma mark - Methods
 -(void)connect;
 -(void)disconnect;
 @end

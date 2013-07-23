@@ -29,7 +29,6 @@
 @property (nonatomic, readonly) BOOL isConnected;
 
 -(id)initWithURL:(NSString *)url;
--(id)initWithURL:(NSString *)url purgeCount:(NSUInteger)purgeCount;
 
 -(void)connect;
 -(void)disconnect;
