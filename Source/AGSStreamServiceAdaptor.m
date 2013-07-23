@@ -11,26 +11,17 @@
 
 @interface AGSStreamServiceAdaptor () <SRWebSocketDelegate>
 @property (nonatomic, strong) SRWebSocket *socket;
-@property (nonatomic, assign) NSUInteger purgeCount;
 @property (nonatomic, strong) NSURL *connectionURL;
 @end
 
-#define kPurgeCountKey @"purgeCount"
-
 @implementation AGSStreamServiceAdaptor
 -(id)initWithURL:(NSString *)url
-{
-    return [self initWithURL:url purgeCount:0];
-}
-
--(id)initWithURL:(NSString *)url purgeCount:(NSUInteger)purgeCount;
 {
     self = [super init];
     if (self)
     {
         self.connectionURL = [NSURL URLWithString:url];
         _isConnected = NO;
-        self.purgeCount = purgeCount;
     }
     return self;
 }
@@ -95,29 +86,80 @@
 
 -(void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(onStreamServiceMessage:)])
+    if (self.delegate &&
+        ([self.delegate respondsToSelector:@selector(onStreamServiceMessageCreateFeatures:)] ||
+         [self.delegate respondsToSelector:@selector(onStreamServiceMessageUpdateFeatures:)] ||
+         [self.delegate respondsToSelector:@selector(onStreamServiceMessageDeleteFeatures:)]))
     {
         NSError *error = nil;
         id messageObject = [NSJSONSerialization JSONObjectWithData:[(NSString *)message dataUsingEncoding:NSUTF8StringEncoding]
                                                            options:NSJSONReadingAllowFragments
                                                              error:&error];
-        NSArray *streamData = nil;
-        if ([messageObject isKindOfClass:[NSArray class]])
+        NSArray *outData = nil;
+        BOOL isCreate = NO, isUpdate = NO, isDelete = NO;
+        if ([messageObject isKindOfClass:[NSDictionary class]])
         {
-            streamData = (NSArray *)messageObject;
+            NSDictionary *operationDictionary = messageObject;
+            NSString *type = operationDictionary[@"type"];
+            id features = operationDictionary[@"feature"];
+            if ([features isKindOfClass:[NSArray class]])
+            {
+                outData = features;
+            }
+            else
+            {
+                outData = @[features];
+            }
+            
+            if ([type isEqualToString:@"create"])
+            {
+                isCreate = YES;
+            }
+            else if ([type isEqualToString:@"update"])
+            {
+                isUpdate = YES;
+            }
+            else if ([type isEqualToString:@"delete"])
+            {
+                isDelete = YES;
+            }
+            else
+            {
+                @throw [NSException exceptionWithName:@"Invalid Parameter!"
+                                               reason:@"Stream type must be 'create', 'update', or 'delete'!"
+                                             userInfo:nil];
+            }
+        }
+        else if ([messageObject isKindOfClass:[NSArray class]])
+        {
+            outData = messageObject;
+            isCreate = YES;
         }
         else
         {
-            streamData = @[messageObject];
+            outData = @[messageObject];
+            isCreate = YES;
         }
         
-        NSMutableArray *graphics = [NSMutableArray arrayWithCapacity:streamData.count];
-        for (NSDictionary *rawGraphic in streamData) {
-            AGSGraphic *g = [[AGSGraphic alloc] initWithJSON:rawGraphic];
-            [graphics addObject:g];
+        if (([self.delegate respondsToSelector:@selector(onStreamServiceMessageCreateFeatures:)] && isCreate) ||
+            ([self.delegate respondsToSelector:@selector(onStreamServiceMessageUpdateFeatures:)] && isUpdate) ||
+            ([self.delegate respondsToSelector:@selector(onStreamServiceMessageDeleteFeatures:)] && isDelete))
+        {
+            NSMutableArray *outputGraphics = [NSMutableArray arrayWithCapacity:outData.count];
+            for (NSDictionary *rawGraphic in outData) {
+                AGSGraphic *g = [[AGSGraphic alloc] initWithJSON:rawGraphic];
+                [outputGraphics addObject:g];
+            }
+            if (isCreate) {
+                [self.delegate onStreamServiceMessageCreateFeatures:outputGraphics];
+            }
+            else if (isUpdate) {
+                [self.delegate onStreamServiceMessageUpdateFeatures:outputGraphics];
+            }
+            else {
+                [self.delegate onStreamServiceMessageDeleteFeatures:outputGraphics];
+            }
         }
-    
-        [self.delegate onStreamServiceMessage:graphics];
     }
 }
 @end

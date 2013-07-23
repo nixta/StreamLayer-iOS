@@ -13,7 +13,9 @@
 
 @protocol AGSStreamServiceDelegate <NSObject>
 @optional
--(void)onStreamServiceMessage:(NSArray *)update;
+-(void)onStreamServiceMessageCreateFeatures:(NSArray *)features;
+-(void)onStreamServiceMessageUpdateFeatures:(NSArray *)features;
+-(void)onStreamServiceMessageDeleteFeatures:(NSArray *)features;
 
 -(void)streamServiceDidConnect:(AGSStreamServiceAdaptor *)serviceAdaptor;
 -(void)streamServiceDidFail:(AGSStreamServiceAdaptor *)serviceAdaptor withError:(NSError *)error;
@@ -27,7 +29,6 @@
 @property (nonatomic, readonly) BOOL isConnected;
 
 -(id)initWithURL:(NSString *)url;
--(id)initWithURL:(NSString *)url purgeCount:(NSUInteger)purgeCount;
 
 -(void)connect;
 -(void)disconnect;

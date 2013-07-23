@@ -15,6 +15,10 @@
 #define kStreamingAdaptor @"AGSGraphicsLayer_StreamLayer_StreamingAdaptorObject"
 #define kStreamingLayerDelegate @"AGSGraphicsLayer_StreamLayer_StreamingLayerDelegate"
 
+@interface AGSGraphicsLayer (StreamLayer_internal) <AGSStreamServiceDelegate>
+
+@end
+
 @implementation AGSGraphicsLayer (StreamLayer)
 #pragma mark - Properties
 -(BOOL)shouldManageFeaturesWhenStreaming
@@ -84,7 +88,7 @@
 +(AGSGraphicsLayer *)graphicsLayerWithStreamingURL:(NSString *)url purgeCount:(NSUInteger)purgeCount
 {
     AGSGraphicsLayer *newLayer = [[AGSGraphicsLayer alloc] initWithSpatialReference:[AGSSpatialReference wgs84SpatialReference]];
-    newLayer.streamingAdaptor = [[AGSStreamServiceAdaptor alloc] initWithURL:url purgeCount:purgeCount];
+    newLayer.streamingAdaptor = [[AGSStreamServiceAdaptor alloc] initWithURL:url];
     newLayer.streamingAdaptor.streamServiceDelegate = newLayer;
     return newLayer;
 }
@@ -114,11 +118,11 @@
     }
 }
 
--(void)onStreamServiceMessage:(NSArray *)update
+-(void)onStreamServiceMessageCreateFeatures:(NSArray *)features
 {
     if (!self.doNotProjectStreamDataToLayer)
     {
-        for (AGSGraphic *g in update) {
+        for (AGSGraphic *g in features) {
             g.geometry = [[AGSGeometryEngine defaultGeometryEngine] projectGeometry:g.geometry
                                                                  toSpatialReference:self.mapView.spatialReference];
         }
@@ -126,13 +130,13 @@
 
     if (self.shouldManageFeaturesWhenStreaming)
     {
-        [self addGraphics:update];
+        [self addGraphics:features];
         [self _purge];
     }
     
-    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(onStreamServiceMessage:)])
+    if (self.streamServiceDelegate && [self.streamServiceDelegate respondsToSelector:@selector(onStreamServiceMessageCreateFeatures:)])
     {
-        [self.streamServiceDelegate onStreamServiceMessage:update];
+        [self.streamServiceDelegate onStreamServiceMessageCreateFeatures:features];
     }
 }
 

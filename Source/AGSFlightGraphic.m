@@ -160,9 +160,9 @@
         [self.rawTrail addPathToPolyline];
         [self.rawTrail addPointToPath:(AGSPoint *)self.rawGeometry];
         self.trailSymbol =
-            [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor colorWithRed:59/255
-                                                                           green:163/255
-                                                                            blue:208/255
+            [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor colorWithRed:0.23
+                                                                           green:0.7
+                                                                            blue:0.9
                                                                            alpha:0.6]];
         self.trail = [AGSGraphic graphicWithGeometry:[ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR]
                                               symbol:self.trailSymbol
@@ -172,9 +172,9 @@
         self.rawTrack = [[AGSMutableMultipoint alloc] initWithSpatialReference:self.workingSR];
         [self.rawTrack addPoint:(AGSPoint *)self.rawGeometry];
         self.trackSymbol =
-            [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:240/255
-                                                                               green:240/255
-                                                                                blue:240/255
+            [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.94
+                                                                               green:0.94
+                                                                                blue:0.94
                                                                                alpha:0.5]];
         self.trackSymbol.size = CGSizeMake(1, 1);
         self.trackSymbol.outline = nil;
@@ -213,7 +213,7 @@
                                   spatialReference:thisPoint.spatialReference];
         if (fabs(testPoint.x - previousPoint.x) < self.srWidth)
         {
-            NSLog(@"Corrected %@\n  To point %@", thisPoint, testPoint);
+//            NSLog(@"Corrected %@\n  To point %@", thisPoint, testPoint);
             // Finish this line path at the "trick" point, and start a new path
             // across the other side of the map where the data is…
             [self.rawTrail addPointToPath:testPoint];
