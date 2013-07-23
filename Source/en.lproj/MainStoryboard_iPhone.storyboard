@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4471.1" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="RHi-cx-D1N">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="j5e-yB-pFg">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3697.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Stream Layer Sample View Controller - Stream Flights-->
-        <scene sceneID="BXZ-2i-G7r">
+        <!--Flight Timewindow Sample View Controller - Time Aware Flights-->
+        <scene sceneID="0Qv-Wu-C8L">
             <objects>
-                <viewController storyboardIdentifier="Flights Stream VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4iZ-h7-v7a" customClass="StreamLayerSampleViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="225-K2-xRr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <viewController storyboardIdentifier="Flights By Time VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mX8-yE-SvQ" customClass="FlightTimewindowSampleViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="Lxq-TC-Vtu">
+                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="MapView" id="gBB-Yb-c9p" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <view contentMode="scaleToFill" restorationIdentifier="MapView" translatesAutoresizingMaskIntoConstraints="NO" id="Jiw-TI-hC0" customClass="AGSMapView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sFN-GC-FPq">
-                                <rect key="frame" x="20" y="20" width="280" height="31"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXk-hL-qfS">
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="YQy-Ai-wNq"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Stream Flight Paths">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,77 +29,49 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleConnection:" destination="4iZ-h7-v7a" eventType="touchUpInside" id="Aie-rZ-Mi6"/>
+                                    <action selector="toggleConnection:" destination="mX8-yE-SvQ" eventType="touchUpInside" id="sfF-s6-Z7u"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" id="u4v-Jt-Gp7">
-                                <rect key="frame" x="20" y="59" width="280" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waiting to stream..." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BgR-jx-2hD">
-                                        <rect key="frame" x="7" y="2" width="267" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QXk-hL-qfS" firstAttribute="top" secondItem="Lxq-TC-Vtu" secondAttribute="top" constant="20" symbolic="YES" type="default" id="0pc-Mw-sWw"/>
+                            <constraint firstItem="Jiw-TI-hC0" firstAttribute="leading" secondItem="Lxq-TC-Vtu" secondAttribute="leading" type="default" id="ERl-jd-kTf"/>
+                            <constraint firstItem="Jiw-TI-hC0" firstAttribute="top" secondItem="Lxq-TC-Vtu" secondAttribute="top" type="default" id="Q9P-0h-KDQ"/>
+                            <constraint firstItem="Jiw-TI-hC0" firstAttribute="trailing" secondItem="Lxq-TC-Vtu" secondAttribute="trailing" type="default" id="UGv-SM-Cxx"/>
+                            <constraint firstAttribute="trailing" secondItem="QXk-hL-qfS" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="aqJ-iH-b2P"/>
+                            <constraint firstItem="QXk-hL-qfS" firstAttribute="leading" secondItem="Lxq-TC-Vtu" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="h67-AB-jj7"/>
+                            <constraint firstItem="Jiw-TI-hC0" firstAttribute="bottom" secondItem="Lxq-TC-Vtu" secondAttribute="bottom" type="default" id="nNY-Rd-ZqI"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Stream Flights" image="plane.png" id="P5O-ks-4vJ"/>
+                    <tabBarItem key="tabBarItem" title="Time Aware Flights" image="time.png" id="Het-sy-2hT"/>
                     <connections>
-                        <outlet property="mapView" destination="gBB-Yb-c9p" id="QNn-0c-Pp9"/>
-                        <outlet property="toggleConnectionButton" destination="sFN-GC-FPq" id="K4l-ps-9Pn"/>
-                        <outlet property="trackingLabel" destination="BgR-jx-2hD" id="vMj-zu-o7R"/>
-                        <outlet property="trackingView" destination="u4v-Jt-Gp7" id="PAu-Be-4bs"/>
+                        <outlet property="mapView" destination="Jiw-TI-hC0" id="Aub-xr-yer"/>
+                        <outlet property="toggleConnectionButton" destination="QXk-hL-qfS" id="Xag-cL-jLR"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5Dc-Ng-Ztm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vae-0J-mD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-92" y="-145"/>
+            <point key="canvasLocation" x="425" y="327"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="DSl-DO-23B">
+        <!--Stream Layer Sample View Controller - Stream Flights-->
+        <scene sceneID="tl6-G1-hFj">
             <objects>
-                <tabBarController storyboardIdentifier="Main Tab Bar" useStoryboardIdentifierAsRestorationIdentifier="YES" id="RHi-cx-D1N" sceneMemberID="viewController">
-                    <keyCommands/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="DIn-d0-hA9">
-                        <rect key="frame" x="129" y="330" width="163" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="4iZ-h7-v7a" kind="relationship" relationship="viewControllers" id="ciW-KQ-UCw"/>
-                        <segue destination="I8F-4e-mWw" kind="relationship" relationship="viewControllers" id="Pft-UN-O2g"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5d-T0-m0J" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-626" y="182"/>
-        </scene>
-        <!--Flight Timewindow Sample View Controller - Time Aware Layer-->
-        <scene sceneID="2Sa-WL-BeN">
-            <objects>
-                <viewController storyboardIdentifier="Flights By Time VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="I8F-4e-mWw" customClass="FlightTimewindowSampleViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="pg6-Zv-Hid">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <viewController storyboardIdentifier="Flight Streams VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dTM-Js-f72" customClass="StreamLayerSampleViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="2Vn-Px-fQI">
+                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="MapView" id="CyJ-5a-lAn" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <view contentMode="scaleToFill" restorationIdentifier="MapView" translatesAutoresizingMaskIntoConstraints="NO" id="Xok-7R-YU7" customClass="AGSMapView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0hp-NF-Ioy">
-                                <rect key="frame" x="20" y="20" width="280" height="31"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pd9-Vp-s0j">
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="W1X-gJ-llJ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Connect Time-aware Stream">
+                                <state key="normal" title="Stream Flight Paths">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -109,26 +79,105 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleConnection:" destination="I8F-4e-mWw" eventType="touchUpInside" id="ide-lo-PC3"/>
+                                    <action selector="toggleConnection:" destination="dTM-Js-f72" eventType="touchUpInside" id="Vko-ft-1qx"/>
                                 </connections>
                             </button>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5oE-Kt-LcP">
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Waiting to stream…" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fB7-3I-MdM">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="267" type="user" id="ZrQ-56-bPM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="fB7-3I-MdM" firstAttribute="top" secondItem="5oE-Kt-LcP" secondAttribute="top" constant="2" id="ASA-Ig-zVH"/>
+                                    <constraint firstItem="fB7-3I-MdM" firstAttribute="centerX" secondItem="5oE-Kt-LcP" secondAttribute="centerX" type="default" id="U4j-cj-3Az"/>
+                                </constraints>
+                            </view>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Xok-7R-YU7" firstAttribute="leading" secondItem="2Vn-Px-fQI" secondAttribute="leading" type="default" id="1Vq-Tr-qxi"/>
+                            <constraint firstItem="Xok-7R-YU7" firstAttribute="bottom" secondItem="2Vn-Px-fQI" secondAttribute="bottom" type="default" id="4LN-zw-fSS"/>
+                            <constraint firstItem="5oE-Kt-LcP" firstAttribute="leading" secondItem="2Vn-Px-fQI" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="4VO-bk-gzZ"/>
+                            <constraint firstAttribute="trailing" secondItem="pd9-Vp-s0j" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="6It-1o-010"/>
+                            <constraint firstAttribute="trailing" secondItem="5oE-Kt-LcP" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="8Iu-on-FIu"/>
+                            <constraint firstAttribute="bottom" secondItem="5oE-Kt-LcP" secondAttribute="bottom" constant="419" id="9XK-bj-hPK"/>
+                            <constraint firstItem="pd9-Vp-s0j" firstAttribute="top" secondItem="2Vn-Px-fQI" secondAttribute="top" constant="20" symbolic="YES" type="default" id="N2I-yo-Ykn"/>
+                            <constraint firstItem="Xok-7R-YU7" firstAttribute="trailing" secondItem="2Vn-Px-fQI" secondAttribute="trailing" type="default" id="SwI-wC-KDf"/>
+                            <constraint firstItem="Xok-7R-YU7" firstAttribute="top" secondItem="2Vn-Px-fQI" secondAttribute="top" type="default" id="UHl-VB-xN3"/>
+                            <constraint firstItem="pd9-Vp-s0j" firstAttribute="leading" secondItem="2Vn-Px-fQI" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ecj-rK-Bfa"/>
+                            <constraint firstItem="5oE-Kt-LcP" firstAttribute="top" secondItem="2Vn-Px-fQI" secondAttribute="top" constant="54" id="q0N-vg-qp6"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Time Aware Layer" image="time.png" id="xoZ-mU-jtW"/>
+                    <tabBarItem key="tabBarItem" title="Stream Flights" image="plane.png" id="mJs-13-VIW"/>
                     <connections>
-                        <outlet property="mapView" destination="CyJ-5a-lAn" id="VzO-f9-vF7"/>
-                        <outlet property="toggleConnectionButton" destination="0hp-NF-Ioy" id="nSX-Rx-SLF"/>
+                        <outlet property="mapView" destination="Xok-7R-YU7" id="7cs-vl-LWV"/>
+                        <outlet property="toggleConnectionButton" destination="pd9-Vp-s0j" id="Ob0-xi-n9V"/>
+                        <outlet property="trackingLabel" destination="fB7-3I-MdM" id="4YO-P5-lhW"/>
+                        <outlet property="trackingView" destination="5oE-Kt-LcP" id="Nho-X2-8Pd"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u6v-cI-bVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bLs-Yr-sjw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-92" y="508"/>
+            <point key="canvasLocation" x="425" y="-326"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="kVN-Az-sAm">
+            <objects>
+                <tabBarController storyboardIdentifier="Main Tab Bar" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="j5e-yB-pFg" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="lUY-A0-hAs">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="dTM-Js-f72" kind="relationship" relationship="viewControllers" id="9Zq-JE-RUF"/>
+                        <segue destination="mX8-yE-SvQ" kind="relationship" relationship="viewControllers" id="nH9-qR-VjS"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IeN-hC-xUT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-109" y="1"/>
         </scene>
     </scenes>
     <resources>
         <image name="plane.png" width="11" height="12"/>
         <image name="time.png" width="12" height="12"/>
     </resources>
+    <classes>
+        <class className="AGSMapView" superclassName="AGSMapViewBase">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapView.h"/>
+        </class>
+        <class className="AGSMapViewBase" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AGSMapViewBase.h"/>
+        </class>
+        <class className="FlightTimewindowSampleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlightTimewindowSampleViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="toggleConnectionButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="StreamLayerSampleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamLayerSampleViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="AGSMapView"/>
+                <relationship kind="outlet" name="toggleConnectionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="trackingLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="trackingView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
