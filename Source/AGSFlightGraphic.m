@@ -156,9 +156,7 @@
         self.currentPositionSymbol.outline = nil;
         self.symbol = self.currentPositionSymbol;
 
-        self.rawTrail = [[AGSMutablePolyline alloc] initWithSpatialReference:self.workingSR];
-        [self.rawTrail addPathToPolyline];
-        [self.rawTrail addPointToPath:(AGSPoint *)self.rawGeometry];
+        [self startTrail];
         self.trailSymbol =
             [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor colorWithRed:0.23
                                                                            green:0.7
@@ -169,8 +167,7 @@
                                           attributes:[rawGraphic.allAttributes copy]
                                 infoTemplateDelegate:nil];
 
-        self.rawTrack = [[AGSMutableMultipoint alloc] initWithSpatialReference:self.workingSR];
-        [self.rawTrack addPoint:(AGSPoint *)self.rawGeometry];
+        [self startTrack];
         self.trackSymbol =
             [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.94
                                                                                green:0.94
@@ -193,48 +190,72 @@
     return self;
 }
 
+-(void)startTrail
+{
+    self.rawTrail = [[AGSMutablePolyline alloc] initWithSpatialReference:self.workingSR];
+    [self.rawTrail addPathToPolyline];
+    [self.rawTrail addPointToPath:(AGSPoint *)self.rawGeometry];
+}
+
+-(void)startTrack
+{
+    self.rawTrack = [[AGSMutableMultipoint alloc] initWithSpatialReference:self.workingSR];
+    [self.rawTrack addPoint:(AGSPoint *)self.rawGeometry];
+}
+
 -(void)updateWithLatestPositionGraphic:(AGSGraphic *)latestPositionUpdate
 {
     // Create one copy of this latest location.
     AGSGeometryEngine *ge = [AGSGeometryEngine defaultGeometryEngine];
-    AGSPoint *latestPoint = (AGSPoint *)[ge projectGeometry:latestPositionUpdate.geometry toSpatialReference:self.workingSR];
+    AGSPoint *latestPoint = (AGSPoint *)[ge projectGeometry:latestPositionUpdate.geometry
+                                         toSpatialReference:self.workingSR];
     
-    AGSPoint *previousPoint = [self.rawTrack pointAtIndex:self.rawTrack.numPoints-1];
-    AGSPoint *thisPoint = latestPoint ;
-    
-    // For right now, we're assuming all points come in as WGS84 (lat/lon)
-    if (fabs(thisPoint.x - previousPoint.x) >= self.srWidth)
+    if (abs([self.lastUpdateTime timeIntervalSinceNow]) < 40)
     {
-        double testOffset = self.srWidth * ((thisPoint.x > 0)?-2:2);
-//        NSLog(@"Possible wraparound needed. TestOffset = %f", testOffset);
-//        NSLog(@"From:\n    %@\nTo: %@", previousPoint, thisPoint);
-        AGSPoint *testPoint = [AGSPoint pointWithX:thisPoint.x + testOffset
-                                                 y:thisPoint.y
-                                  spatialReference:thisPoint.spatialReference];
-        if (fabs(testPoint.x - previousPoint.x) < self.srWidth)
+        AGSPoint *previousPoint = [self.rawTrack pointAtIndex:self.rawTrack.numPoints-1];
+        AGSPoint *thisPoint = latestPoint ;
+        
+        // For right now, we're assuming all points come in as WGS84 (lat/lon)
+        if (fabs(thisPoint.x - previousPoint.x) >= self.srWidth)
         {
-//            NSLog(@"Corrected %@\n  To point %@", thisPoint, testPoint);
-            // Finish this line path at the "trick" point, and start a new path
-            // across the other side of the map where the data is…
-            [self.rawTrail addPointToPath:testPoint];
-            [self.rawTrail addPathToPolyline];
-            
-            latestPoint = thisPoint;
+            double testOffset = self.srWidth * ((thisPoint.x > 0)?-2:2);
+            //        NSLog(@"Possible wraparound needed. TestOffset = %f", testOffset);
+            //        NSLog(@"From:\n    %@\nTo: %@", previousPoint, thisPoint);
+            AGSPoint *testPoint = [AGSPoint pointWithX:thisPoint.x + testOffset
+                                                     y:thisPoint.y
+                                      spatialReference:thisPoint.spatialReference];
+            if (fabs(testPoint.x - previousPoint.x) < self.srWidth)
+            {
+                //            NSLog(@"Corrected %@\n  To point %@", thisPoint, testPoint);
+                // Finish this line path at the "trick" point, and start a new path
+                // across the other side of the map where the data is…
+                [self.rawTrail addPointToPath:testPoint];
+                [self.rawTrail addPathToPolyline];
+                
+                latestPoint = thisPoint;
+            }
         }
+        
+        // Extend the trail.
+        [self.rawTrail addPointToPath:latestPoint];
+        
+        // Add to the track.
+        [self.rawTrack addPoint:latestPoint];
     }
-    
-    // Extend the trail.
-    [self.rawTrail addPointToPath:latestPoint];
-    self.trail.geometry = [ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR];
+    else
+    {
+        NSLog(@"Restarting flight %@", self.flightNumber);
+        [self startTrack];
+        [self startTrail];
+    }
 
-    // Add to the track.
-    [self.rawTrack addPoint:latestPoint];
+    self.trail.geometry = [ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR];
     self.track.geometry = [ge projectGeometry:self.rawTrack toSpatialReference:self.targetSR];
-    
+
     // And show the latest point
     self.rawGeometry = latestPoint;
     self.geometry = [ge projectGeometry:self.rawGeometry toSpatialReference:self.targetSR];
-    
+
     self.lastUpdateTime = [NSDate date];
 }
 @end

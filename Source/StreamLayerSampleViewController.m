@@ -27,6 +27,8 @@
 @property (nonatomic, assign) BOOL extentRestored;
 
 @property (nonatomic, strong) NSMutableDictionary *flights;
+
+@property (nonatomic, assign) NSUInteger pointsLoaded;
 @end
 
 @implementation StreamLayerSampleViewController
@@ -49,7 +51,8 @@
     self.stream = [[AGSStreamServiceAdaptor alloc] initWithURL:kStreamURL];
     self.stream.delegate = self;
     
-    self.streamLayer = [AGSGraphicsLayer graphicsLayer];
+    self.streamLayer = [[AGSGraphicsLayer alloc] initWithFullEnvelope:nil
+                                                        renderingMode:AGSGraphicsLayerRenderingModeDynamic];
     
     [self.mapView addMapLayer:self.streamLayer];
 
@@ -60,43 +63,46 @@
 
 -(void)onStreamServiceMessageCreateFeatures:(NSArray *)features
 {
-    // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
-    // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
-    // honoured.
-    for (AGSGraphic *flightUpdateGraphic in features)
-    {
-        // Note, we configured the StreamLayer not to project geometries from the raw
-        // stream before presenting them to us back up in viewDidLoad...
-        AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
-                                                   consideringRawGraphic:flightUpdateGraphic
-                                                     forSpatialReference:self.mapView.spatialReference];
-        if (![self.streamLayer.graphics containsObject:f])
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.pointsLoaded += features.count;
+        // The Update is an array of AGSGraphics objects. Note that if AGSGraphicsLayer.shouldManageFeaturesWhenStreaming == YES
+        // then the graphics will already have been added to the Graphics Layer and any non-zero purge value will have been
+        // honoured.
+        for (AGSGraphic *flightUpdateGraphic in features)
         {
-            [self.streamLayer addGraphic:f.trail];
-            [self.streamLayer addGraphic:f.track];
-            [self.streamLayer addGraphic:f];
+            // Note, we configured the StreamLayer not to project geometries from the raw
+            // stream before presenting them to us back up in viewDidLoad...
+            AGSFlightGraphic *f = [AGSFlightGraphic flightGraphicFromFlights:self.flights
+                                                       consideringRawGraphic:flightUpdateGraphic
+                                                         forSpatialReference:self.mapView.spatialReference];
+            if (![self.streamLayer.graphics containsObject:f])
+            {
+//                [self.streamLayer addGraphic:f.trail];
+//                [self.streamLayer addGraphic:f.track];
+                [self.streamLayer addGraphic:f];
+            }
         }
-    }
-    
-    NSUInteger recentlyUpdatedFlights = 0;
-    NSTimeInterval recencyThreshold = 40; // seconds
-    NSDate *now = [NSDate date];
-    for (AGSFlightGraphic *f in self.flights.allValues)
-    {
-        NSTimeInterval timeSinceUpdate = [now timeIntervalSinceDate:f.lastUpdateTime];
-        if (timeSinceUpdate < recencyThreshold)
+        
+        NSUInteger recentlyUpdatedFlights = 0;
+        NSTimeInterval recencyThreshold = 40; // seconds
+        NSDate *now = [NSDate date];
+        for (AGSFlightGraphic *f in self.flights.allValues)
         {
-            recentlyUpdatedFlights++;
-            f.isFaded = NO;
+            NSTimeInterval timeSinceUpdate = [now timeIntervalSinceDate:f.lastUpdateTime];
+            if (timeSinceUpdate < recencyThreshold)
+            {
+                recentlyUpdatedFlights++;
+                f.isFaded = NO;
+            }
+            else if (!f.isFaded)
+            {
+                f.isFaded = YES;
+                //                NSLog(@"Fading flight %@ which was last updated %f seconds ago", f.flightNumber, timeSinceUpdate);
+            }
         }
-        else if (!f.isFaded)
-        {
-            f.isFaded = YES;
-            //                NSLog(@"Fading flight %@ which was last updated %f seconds ago", f.flightNumber, timeSinceUpdate);
-        }
-    }
-    
-    self.trackingLabel.text = [NSString stringWithFormat:@"Tracking %d of %d flights", recentlyUpdatedFlights, self.flights.count];
+        
+        self.trackingLabel.text = [NSString stringWithFormat:@"Tracking %d of %d flights (%d)", recentlyUpdatedFlights, self.flights.count, self.pointsLoaded];
+    });
 }
 
 -(BOOL)prefersStatusBarHidden
@@ -157,6 +163,7 @@
         [self setButtonText:kConnectText];
         [self.stream connect];
         self.shouldBeStreaming = YES;
+        self.pointsLoaded = 0;
     }
 }
 
@@ -210,5 +217,11 @@
 - (void)viewDidUnload {
     [self setToggleConnectionButton:nil];
     [super viewDidUnload];
+}
+
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSLog(@"Stream View Controller Received Memory Warning!");
 }
 @end

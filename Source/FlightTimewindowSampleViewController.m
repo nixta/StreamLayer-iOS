@@ -163,4 +163,11 @@
     [self setButtonText:kConnectText];
     self.shouldBeStreaming = NO;
 }
+
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSLog(@"Flight Time Window View Controller Received Memory Warning!");
+}
+
 @end
