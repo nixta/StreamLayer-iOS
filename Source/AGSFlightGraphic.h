@@ -18,6 +18,8 @@
 @property (nonatomic, readonly) double heading;
 @property (nonatomic, strong, readonly) NSDate *lastUpdateTime;
 
+@property (nonatomic, assign) NSTimeInterval resetTrackInterval;
+
 @property (atomic, assign) BOOL isFaded;
 
 +(AGSFlightGraphic *)flightGraphicFromFlights:(NSDictionary *)flights
