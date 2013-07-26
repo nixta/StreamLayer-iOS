@@ -11,5 +11,7 @@
 @interface StreamLayerSampleAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic, readonly) NSDate *lauchDate;
+@property (assign, nonatomic, readonly) NSTimeInterval aliveTime;
 
 @end

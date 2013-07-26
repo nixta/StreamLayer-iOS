@@ -89,12 +89,28 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view alpha="0.99999999999999989" contentMode="scaleToFill" id="4wU-Rw-SXr">
+                                <rect key="frame" x="20" y="460" width="280" height="19"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Waiting to stream…" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R6m-Bh-o3f">
+                                        <rect key="frame" x="3" y="0.0" width="274" height="19"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Stream Flights" image="plane.png" id="mJs-13-VIW"/>
                     <connections>
                         <outlet property="mapView" destination="Xok-7R-YU7" id="7cs-vl-LWV"/>
+                        <outlet property="statusLabel" destination="R6m-Bh-o3f" id="zvy-eG-TY1"/>
+                        <outlet property="statusView" destination="4wU-Rw-SXr" id="xAn-0S-wPN"/>
                         <outlet property="toggleConnectionButton" destination="pd9-Vp-s0j" id="Ob0-xi-n9V"/>
                         <outlet property="trackingLabel" destination="fB7-3I-MdM" id="4YO-P5-lhW"/>
                         <outlet property="trackingView" destination="5oE-Kt-LcP" id="Nho-X2-8Pd"/>

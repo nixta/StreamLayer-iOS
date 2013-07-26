@@ -24,8 +24,15 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 70;
     [DDLog addLogger:fileLogger];
     
+    _lauchDate = [NSDate date];
+    
     application.statusBarHidden = YES;
     return YES;
+}
+
+-(NSTimeInterval)aliveTime
+{
+    return abs([_lauchDate timeIntervalSinceNow]);
 }
 							
 - (void)applicationDidBecomeActive:(UIApplication *)application
