@@ -24,6 +24,10 @@
 		65E02495179F12FB0086A48B /* time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65E02491179F12FB0086A48B /* time@2x.png */; };
 		65F1AAD017909C990069BAE1 /* AGSFlightGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = 65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */; };
 		65FDE5B51791127B00BB0997 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FDE5AE1791122200BB0997 /* libSocketRocket.a */; };
+		D985806417A067CC003A7DAD /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D985805D17A067CC003A7DAD /* DDASLLogger.m */; };
+		D985806517A067CC003A7DAD /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D985805F17A067CC003A7DAD /* DDFileLogger.m */; };
+		D985806617A067CC003A7DAD /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D985806117A067CC003A7DAD /* DDLog.m */; };
+		D985806717A067CC003A7DAD /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D985806317A067CC003A7DAD /* DDTTYLogger.m */; };
 		D9A8B11916BB27B9001653EE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11816BB27B9001653EE /* libc++.dylib */; };
 		D9A8B11B16BB27BF001653EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A8B11A16BB27BF001653EE /* OpenGLES.framework */; };
 		D9F3D1AE1668271A00FB6A8D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D1AD1668271A00FB6A8D /* UIKit.framework */; };
@@ -106,6 +110,14 @@
 		65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGSFlightGraphic.m; sourceTree = "<group>"; };
 		65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = Submodules/SocketRocket/SocketRocket.xcodeproj; sourceTree = "<group>"; };
 		65FDE5B61791128C00BB0997 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWebSocket.h; path = ../Submodules/SocketRocket/SocketRocket/SRWebSocket.h; sourceTree = "<group>"; };
+		D985805C17A067CC003A7DAD /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		D985805D17A067CC003A7DAD /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		D985805E17A067CC003A7DAD /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		D985805F17A067CC003A7DAD /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		D985806017A067CC003A7DAD /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		D985806117A067CC003A7DAD /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		D985806217A067CC003A7DAD /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		D985806317A067CC003A7DAD /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
 		D9A8B11816BB27B9001653EE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		D9A8B11A16BB27BF001653EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		D9F3D1A91668271A00FB6A8D /* StreamLayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamLayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +202,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D985805717A066E1003A7DAD /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				D985805C17A067CC003A7DAD /* DDASLLogger.h */,
+				D985805D17A067CC003A7DAD /* DDASLLogger.m */,
+				D985805E17A067CC003A7DAD /* DDFileLogger.h */,
+				D985805F17A067CC003A7DAD /* DDFileLogger.m */,
+				D985806017A067CC003A7DAD /* DDLog.h */,
+				D985806117A067CC003A7DAD /* DDLog.m */,
+				D985806217A067CC003A7DAD /* DDTTYLogger.h */,
+				D985806317A067CC003A7DAD /* DDTTYLogger.m */,
+			);
+			name = Lumberjack;
+			sourceTree = "<group>";
+		};
 		D9F3D19E1668271900FB6A8D = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +270,7 @@
 				65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */,
 				65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */,
 				65839AB21791896F009044AE /* AGSStreaming */,
+				D985805717A066E1003A7DAD /* Lumberjack */,
 				65B66D37179898DF00C4840B /* AGSMapView+UIKitRestoration.h */,
 				65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */,
 				D9F3D1B41668271A00FB6A8D /* Supporting Files */,
@@ -399,6 +427,10 @@
 				65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */,
 				65B66CE01796EADE00C4840B /* AGSStreamLayerOptions.m in Sources */,
 				65B66D39179898DF00C4840B /* AGSMapView+UIKitRestoration.m in Sources */,
+				D985806417A067CC003A7DAD /* DDASLLogger.m in Sources */,
+				D985806517A067CC003A7DAD /* DDFileLogger.m in Sources */,
+				D985806617A067CC003A7DAD /* DDLog.m in Sources */,
+				D985806717A067CC003A7DAD /* DDTTYLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

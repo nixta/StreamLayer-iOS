@@ -7,12 +7,23 @@
 //
 
 #import "StreamLayerSampleAppDelegate.h"
+#import "DDFileLogger.h"
+#import "DDASLLogger.h"
+#import "DDTTYLogger.h"
 
 @implementation StreamLayerSampleAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
+    fileLogger.rollingFrequency = 60*60*1; // Roll over every hour - yes, I multiple by 1 for clarity :)
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 70;
+    [DDLog addLogger:fileLogger];
+    
     application.statusBarHidden = YES;
     return YES;
 }
@@ -58,7 +69,7 @@
 
 -(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    NSLog(@"Application Received Memory Warning!");
+    DDLogWarn(@"Application Received Memory Warning!");
 }
 
 @end

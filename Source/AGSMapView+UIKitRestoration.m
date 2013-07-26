@@ -40,7 +40,7 @@
     double scale = self.mapScale;
     double rotationAngle = self.rotationAngle;
     
-//    NSLog(@"Storing scale %f angle %f around %@", scale, rotationAngle, centerPt);
+    DDLogVerbose(@"Storing scale %f angle %f around %@", scale, rotationAngle, centerPt);
 
     [coder encodeObject:[centerPt encodeToJSON] forKey:kEncoderCenterPointKey];
     [coder encodeDouble:rotationAngle forKey:kEncoderRotationAngleKey];
@@ -66,7 +66,7 @@
         double scale = ((NSNumber *)objc_getAssociatedObject(self, kScaleKey)).doubleValue;
         double rotationAngle = ((NSNumber *)objc_getAssociatedObject(self, kRotationKey)).doubleValue;
         
-//        NSLog(@"Setting Map to scale %f angle %f around %@", scale, rotationAngle, centerPt);
+        DDLogVerbose(@"Setting Map to scale %f angle %f around %@", scale, rotationAngle, centerPt);
         
         [self zoomToScale:scale animated:NO];
         [self centerAtPoint:centerPt animated:NO];
@@ -79,7 +79,7 @@
 
 -(void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
-//    NSLog(@"Restoring...");
+    DDLogVerbose(@"Restoring State With Coder...");
     [super decodeRestorableStateWithCoder:coder];
 
     // Clear any old stored info
@@ -92,21 +92,21 @@
         [coder containsValueForKey:kEncoderMapScaleKey])
     {
         @try {
-//            NSLog(@"Trying Restore...");
+            DDLogVerbose(@"Trying Restore...");
             AGSPoint *centerPt = [[AGSPoint alloc] initWithJSON:[coder decodeObjectForKey:kEncoderCenterPointKey]];
             double scale = [coder decodeDoubleForKey:kEncoderMapScaleKey];
             double rotationAngle = [coder decodeDoubleForKey:kEncoderRotationAngleKey];
             
-//            NSLog(@"Restoring scale %f angle %f around %@", scale, rotationAngle, centerPt);
+            DDLogVerbose(@"Restoring scale %f angle %f around %@", scale, rotationAngle, centerPt);
             
             objc_setAssociatedObject(self, kCenterPointKey, centerPt, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             objc_setAssociatedObject(self, kScaleKey, [NSNumber numberWithDouble:scale], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             objc_setAssociatedObject(self, kRotationKey, [NSNumber numberWithDouble:rotationAngle], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//            NSLog(@"Stored data for restore. hasRestorationInfo = %@", self.hasRestorationInfo?@"YES":@"NO");
+            DDLogVerbose(@"Stored data for restore. hasRestorationInfo = %@", self.hasRestorationInfo?@"YES":@"NO");
         }
         @catch (NSException *exception) {
-            NSLog(@"Could not retrieve stored info: %@", coder);
-            NSLog(@"Exception raised: %@", exception);
+            DDLogError(@"Could not retrieve stored info: %@", coder);
+            DDLogError(@"Exception raised: %@", exception);
         }
     }
 }

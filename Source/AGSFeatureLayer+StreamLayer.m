@@ -205,7 +205,7 @@
             {
                 // An update for a features that doesn't exist. Could have been purged.
                 // Just add it again.
-                NSLog(@"Adding from Update");
+                DDLogInfo(@"Adding from Update");
                 [self addGraphic:g];
                 existingGraphic = g;
             }

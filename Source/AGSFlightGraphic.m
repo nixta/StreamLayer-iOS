@@ -12,6 +12,8 @@
 #define kAltitudeKey @"AltitudeFeet"
 #define kHeadingKey @"Heading"
 
+#define kResetTrackTrailSeconds 60
+
 @interface AGSFlightGraphic ()
 @property (nonatomic, assign) BOOL splitOverWrapAround;
 @property (nonatomic, assign) double wrapAroundCorrectionOffset;
@@ -21,13 +23,6 @@
 @property (nonatomic, strong) AGSMutableMultipoint *rawTrack;
 @property (nonatomic, strong) AGSSpatialReference *targetSR;
 @property (nonatomic, strong) AGSSpatialReference *workingSR;
-
-@property (nonatomic, strong) AGSSimpleMarkerSymbol *currentPositionSymbol;
-@property (nonatomic, strong) AGSSimpleLineSymbol *trailSymbol;
-@property (nonatomic, strong) AGSSimpleMarkerSymbol *trackSymbol;
-@property (nonatomic, strong) AGSSimpleMarkerSymbol *currentPositionSymbolFaded;
-@property (nonatomic, strong) AGSSimpleLineSymbol *trailSymbolFaded;
-@property (nonatomic, strong) AGSSimpleMarkerSymbol *trackSymbolFaded;
 
 @property (nonatomic, assign) double srWidth;
 
@@ -77,6 +72,82 @@
 }
 
 
++(AGSSimpleMarkerSymbol *)currentPositionSymbol
+{
+    static AGSSimpleMarkerSymbol *s = nil;
+    if (!s)
+    {
+        s = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.2
+                                                                               green:0.67
+                                                                                blue:0.94
+                                                                               alpha:0.9]];
+        s.size = CGSizeMake(4, 4);
+        s.outline = nil;
+    }
+    return s;
+}
+
++(AGSSimpleMarkerSymbol *)trackSymbol
+{
+    static AGSSimpleMarkerSymbol *s = nil;
+    if (!s)
+    {
+        s = [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.94
+                                                                               green:0.94
+                                                                                blue:0.94
+                                                                               alpha:0.5]];
+        s.size = CGSizeMake(1, 1);
+        s.outline = nil;
+    }
+    return s;
+}
+
++(AGSSimpleLineSymbol *)trailSymbol
+{
+    static AGSSimpleLineSymbol *s = nil;
+    if (!s)
+    {
+        s = [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor colorWithRed:0.23
+                                                                           green:0.7
+                                                                            blue:0.9
+                                                                           alpha:0.6]];
+    }
+    return s;
+}
+
++(AGSSimpleMarkerSymbol *)currentPositionSymbolFaded
+{
+    static AGSSimpleMarkerSymbol *s = nil;
+    if (!s)
+    {
+        s = [[AGSFlightGraphic currentPositionSymbol] copy];
+        s.color = [[UIColor redColor] colorWithAlphaComponent:0.4];
+    }
+    return s;
+}
+
++(AGSSimpleMarkerSymbol *)trackSymbolFaded
+{
+    static AGSSimpleMarkerSymbol *s = nil;
+    if (!s)
+    {
+        s = [[AGSFlightGraphic trackSymbol] copy];
+        s.color = [[UIColor orangeColor] colorWithAlphaComponent:0.3];
+    }
+    return s;
+}
+
++(AGSSimpleLineSymbol *)trailSymbolFaded
+{
+    static AGSSimpleLineSymbol *s = nil;
+    if (!s)
+    {
+        s = [[AGSFlightGraphic trailSymbol] copy];
+        s.color = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
+    }
+    return s;
+}
+
 #pragma mark - Readonly Properties
 
 -(NSString *)flightNumber
@@ -94,6 +165,11 @@
     return [self attributeAsDoubleForKey:kHeadingKey exists:nil];
 }
 
+-(NSArray *)allGraphics
+{
+    return @[self, self.trail, self.track];
+}
+
 -(BOOL)isFaded
 {
     return _isFaded;
@@ -104,20 +180,18 @@
     if (_isFaded != isFaded)
     {
         _isFaded = isFaded;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (isFaded)
-            {
-                self.symbol = self.currentPositionSymbolFaded;
-                self.trail.symbol = self.trailSymbolFaded;
-                self.track.symbol = self.trackSymbolFaded;
-            }
-            else
-            {
-                self.symbol = self.currentPositionSymbol;
-                self.trail.symbol = self.trailSymbol;
-                self.track.symbol = self.trackSymbol;
-            }
-        });
+        if (isFaded)
+        {
+            self.symbol = [AGSFlightGraphic currentPositionSymbolFaded];
+            self.trail.symbol = [AGSFlightGraphic trailSymbolFaded];
+            self.track.symbol = [AGSFlightGraphic trackSymbolFaded];
+        }
+        else
+        {
+            self.symbol = [AGSFlightGraphic currentPositionSymbol];
+            self.trail.symbol = [AGSFlightGraphic trailSymbol];
+            self.track.symbol = [AGSFlightGraphic trackSymbol];
+        }
     }
 }
 
@@ -129,6 +203,7 @@
     {
         _isFaded = NO;
         self.lastUpdateTime = [NSDate date];
+        self.resetTrackInterval = kResetTrackTrailSeconds;
         self.srWidth = 180;
         if (sr)
         {
@@ -147,45 +222,20 @@
         [self setAllAttributes:[rawGraphic.allAttributes copy]];
         self.rawGeometry = [ge projectGeometry:rawGraphic.geometry toSpatialReference:self.workingSR];
         self.geometry = [ge projectGeometry:rawGraphic.geometry toSpatialReference:self.targetSR];
-        self.currentPositionSymbol =
-            [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.2
-                                                                               green:0.67
-                                                                                blue:0.94
-                                                                               alpha:0.9]];
-        self.currentPositionSymbol.size = CGSizeMake(4, 4);
-        self.currentPositionSymbol.outline = nil;
-        self.symbol = self.currentPositionSymbol;
+        self.symbol = [AGSFlightGraphic currentPositionSymbol];
 
         [self startTrail];
-        self.trailSymbol =
-            [AGSSimpleLineSymbol simpleLineSymbolWithColor:[UIColor colorWithRed:0.23
-                                                                           green:0.7
-                                                                            blue:0.9
-                                                                           alpha:0.6]];
         self.trail = [AGSGraphic graphicWithGeometry:[ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR]
-                                              symbol:self.trailSymbol
+                                              symbol:[AGSFlightGraphic trailSymbol]
                                           attributes:[rawGraphic.allAttributes copy]
                                 infoTemplateDelegate:nil];
 
         [self startTrack];
-        self.trackSymbol =
-            [AGSSimpleMarkerSymbol simpleMarkerSymbolWithColor:[UIColor colorWithRed:0.94
-                                                                               green:0.94
-                                                                                blue:0.94
-                                                                               alpha:0.5]];
-        self.trackSymbol.size = CGSizeMake(1, 1);
-        self.trackSymbol.outline = nil;
         self.track = [AGSGraphic graphicWithGeometry:[ge projectGeometry:self.rawTrack toSpatialReference:self.targetSR]
-                                              symbol:self.trackSymbol
+                                              symbol:[AGSFlightGraphic trackSymbol]
                                           attributes:[rawGraphic.allAttributes copy]
                                 infoTemplateDelegate:nil];
 
-        self.currentPositionSymbolFaded = [self.currentPositionSymbol copy];
-        self.currentPositionSymbolFaded.color = [[UIColor redColor] colorWithAlphaComponent:0.4];
-        self.trailSymbolFaded = [self.trailSymbol copy];
-        self.trailSymbolFaded.color = [[UIColor orangeColor] colorWithAlphaComponent:0.3];
-        self.trackSymbolFaded = [self.trackSymbol copy];
-        self.trackSymbolFaded.color = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
     }
     return self;
 }
@@ -205,28 +255,35 @@
 
 -(void)updateWithLatestPositionGraphic:(AGSGraphic *)latestPositionUpdate
 {
-    // Create one copy of this latest location.
+    // Create a working copy of this latest location in WGS84
     AGSGeometryEngine *ge = [AGSGeometryEngine defaultGeometryEngine];
     AGSPoint *latestPoint = (AGSPoint *)[ge projectGeometry:latestPositionUpdate.geometry
                                          toSpatialReference:self.workingSR];
     
-    if (abs([self.lastUpdateTime timeIntervalSinceNow]) < 40)
+    if (abs([self.lastUpdateTime timeIntervalSinceNow]) >= self.resetTrackInterval)
+    {
+        // We hadn't heard from this flight for a while, so we'll 
+        DDLogInfo(@"Restarting flight %@", self.flightNumber);
+        [self startTrack];
+        [self startTrail];
+    }
+    else
     {
         AGSPoint *previousPoint = [self.rawTrack pointAtIndex:self.rawTrack.numPoints-1];
         AGSPoint *thisPoint = latestPoint ;
         
-        // For right now, we're assuming all points come in as WGS84 (lat/lon)
+        // We do our work in WGS84 (lat/lon)
         if (fabs(thisPoint.x - previousPoint.x) >= self.srWidth)
         {
             double testOffset = self.srWidth * ((thisPoint.x > 0)?-2:2);
-            //        NSLog(@"Possible wraparound needed. TestOffset = %f", testOffset);
-            //        NSLog(@"From:\n    %@\nTo: %@", previousPoint, thisPoint);
+            DDLogVerbose(@"Possible wraparound needed. TestOffset = %f", testOffset);
+            DDLogVerbose(@"From:\n    %@\nTo: %@", previousPoint, thisPoint);
             AGSPoint *testPoint = [AGSPoint pointWithX:thisPoint.x + testOffset
                                                      y:thisPoint.y
                                       spatialReference:thisPoint.spatialReference];
             if (fabs(testPoint.x - previousPoint.x) < self.srWidth)
             {
-                //            NSLog(@"Corrected %@\n  To point %@", thisPoint, testPoint);
+                DDLogVerbose(@"Corrected %@\n  To point %@", thisPoint, testPoint);
                 // Finish this line path at the "trick" point, and start a new path
                 // across the other side of the map where the data is…
                 [self.rawTrail addPointToPath:testPoint];
@@ -235,27 +292,28 @@
                 latestPoint = thisPoint;
             }
         }
-        
-        // Extend the trail.
+
+        // Extend the trail and track
         [self.rawTrail addPointToPath:latestPoint];
-        
-        // Add to the track.
         [self.rawTrack addPoint:latestPoint];
     }
-    else
-    {
-        NSLog(@"Restarting flight %@", self.flightNumber);
-        [self startTrack];
-        [self startTrail];
-    }
 
+    self.rawGeometry = latestPoint;
+
+    self.geometry = [ge projectGeometry:self.rawGeometry toSpatialReference:self.targetSR];
     self.trail.geometry = [ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR];
     self.track.geometry = [ge projectGeometry:self.rawTrack toSpatialReference:self.targetSR];
 
-    // And show the latest point
-    self.rawGeometry = latestPoint;
-    self.geometry = [ge projectGeometry:self.rawGeometry toSpatialReference:self.targetSR];
-
     self.lastUpdateTime = [NSDate date];
+}
+
+-(void)dealloc
+{
+    self.rawTrack = nil;
+    self.rawTrail = nil;
+    self.rawGeometry = nil;
+    self.targetSR = nil;
+    self.workingSR = nil;
+    self.lastUpdateTime = nil;
 }
 @end

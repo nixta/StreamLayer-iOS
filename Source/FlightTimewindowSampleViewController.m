@@ -71,7 +71,6 @@
         self.streamingFeatureLayer.streamServiceDelegate = self;
 
         [self.mapView addMapLayer:self.streamingFeatureLayer];
-        NSLog(@"%@ with %@", self.streamingFeatureLayer, self.streamingFeatureLayer.timeInfo);
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActive:) name:@"ResignActive" object:nil];
@@ -159,7 +158,7 @@
 
 -(void)streamServiceDidFailToConnect:(AGSStreamServiceAdaptor *)streamLayer withError:(NSError *)error
 {
-    NSLog(@"Failed to connect: %@", error);
+    DDLogError(@"Failed to connect: %@", error);
     [self setButtonText:kConnectText];
     self.shouldBeStreaming = NO;
 }
@@ -167,7 +166,7 @@
 -(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    NSLog(@"Flight Time Window View Controller Received Memory Warning!");
+    DDLogWarn(@"Flight Time Window View Controller Received Memory Warning!");
 }
 
 @end

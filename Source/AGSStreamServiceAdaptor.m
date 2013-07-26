@@ -30,7 +30,7 @@
 {
     if (self.isConnected)
     {
-        NSLog(@"Already connected!");
+        DDLogWarn(@"Already connected!");
         [self disconnect];
     }
 
@@ -66,7 +66,7 @@
 
 -(void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
 {
-    NSLog(@"WebSocket error: %@", error);
+    DDLogInfo(@"WebSocket error: %@", error);
     _isConnected = NO;
     if (self.delegate && [self.delegate respondsToSelector:@selector(streamServiceDidFail:withError:)])
     {
@@ -76,7 +76,7 @@
 
 -(void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
 {
-    NSLog(@"WebSocket Closed: [%d,%@] %@", code, reason, wasClean?@"Clean":@"Not Clean");
+    DDLogInfo(@"WebSocket Closed: [%d,%@] %@", code, reason, wasClean?@"Clean":@"Not Clean");
     _isConnected = NO;
     if (self.delegate && [self.delegate respondsToSelector:@selector(streamServiceDidDisconnect:withReason:)])
     {
@@ -125,6 +125,7 @@
             }
             else
             {
+                DDLogError(@"Throwing exception because we got an unexpected stream type: %@", type);
                 @throw [NSException exceptionWithName:@"Invalid Parameter!"
                                                reason:@"Stream type must be 'create', 'update', or 'delete'!"
                                              userInfo:nil];
@@ -147,7 +148,9 @@
         {
             NSMutableArray *outputGraphics = [NSMutableArray arrayWithCapacity:outData.count];
             for (NSDictionary *rawGraphic in outData) {
+//                DDLogVerbose(@"Geometry %@", rawGraphic[@"geometry"]);
                 AGSGraphic *g = [[AGSGraphic alloc] initWithJSON:rawGraphic];
+//                DDLogVerbose(@"Created new graphic with geometry %p - %@", g.geometry, g.geometry);
                 [outputGraphics addObject:g];
             }
             if (isCreate) {

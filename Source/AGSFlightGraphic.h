@@ -11,6 +11,7 @@
 @interface AGSFlightGraphic : AGSGraphic
 @property (nonatomic, strong) AGSGraphic *trail;
 @property (nonatomic, strong) AGSGraphic *track;
+@property (nonatomic, weak, readonly) NSArray *allGraphics;
 
 @property (nonatomic, strong) NSString *flightNumber;
 @property (nonatomic, readonly) double altitude;
