@@ -65,7 +65,9 @@
     }
     else
     {
-        [existingGraphic updateWithLatestPositionGraphic:rawGraphic];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [existingGraphic updateWithLatestPositionGraphic:rawGraphic];
+        });
     }
     
     return existingGraphic;
@@ -219,7 +221,7 @@
         
         AGSGeometryEngine *ge = [AGSGeometryEngine defaultGeometryEngine];
 
-        [self setAllAttributes:[rawGraphic.allAttributes copy]];
+        [self setAttributes:[rawGraphic allAttributes]];
         self.rawGeometry = [ge projectGeometry:rawGraphic.geometry toSpatialReference:self.workingSR];
         self.geometry = [ge projectGeometry:rawGraphic.geometry toSpatialReference:self.targetSR];
         self.symbol = [AGSFlightGraphic currentPositionSymbol];
@@ -227,14 +229,12 @@
         [self startTrail];
         self.trail = [AGSGraphic graphicWithGeometry:[ge projectGeometry:self.rawTrail toSpatialReference:self.targetSR]
                                               symbol:[AGSFlightGraphic trailSymbol]
-                                          attributes:[rawGraphic.allAttributes copy]
-                                infoTemplateDelegate:nil];
+                                          attributes:[rawGraphic allAttributes]];
 
         [self startTrack];
         self.track = [AGSGraphic graphicWithGeometry:[ge projectGeometry:self.rawTrack toSpatialReference:self.targetSR]
                                               symbol:[AGSFlightGraphic trackSymbol]
-                                          attributes:[rawGraphic.allAttributes copy]
-                                infoTemplateDelegate:nil];
+                                          attributes:[rawGraphic allAttributes]];
 
     }
     return self;
@@ -270,7 +270,7 @@
     else
     {
         AGSPoint *previousPoint = [self.rawTrack pointAtIndex:self.rawTrack.numPoints-1];
-        AGSPoint *thisPoint = latestPoint ;
+        AGSPoint *thisPoint = latestPoint;
         
         // We do our work in WGS84 (lat/lon)
         if (fabs(thisPoint.x - previousPoint.x) >= self.srWidth)

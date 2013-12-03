@@ -197,9 +197,9 @@
             {
                 // Found one. Update the attributes and geometry
                 existingGraphic.geometry = g.geometry;
-                NSMutableDictionary *updatedAttributes = [existingGraphic.allAttributes mutableCopy];
-                [updatedAttributes addEntriesFromDictionary:g.allAttributes];
-                [existingGraphic setAllAttributes:updatedAttributes];
+                NSMutableDictionary *updatedAttributes = [[existingGraphic allAttributes] mutableCopy];
+                [updatedAttributes addEntriesFromDictionary:[g allAttributes]];
+                [existingGraphic setAttributes:updatedAttributes];
             }
             else
             {

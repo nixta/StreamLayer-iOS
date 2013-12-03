@@ -15,6 +15,9 @@
 		65B66CE51797018500C4840B /* layerDefinition.json in Resources */ = {isa = PBXBuildFile; fileRef = 65B66CE41797018500C4840B /* layerDefinition.json */; };
 		65B66CE91797210C00C4840B /* FlightTimewindowSampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66CE81797210C00C4840B /* FlightTimewindowSampleViewController.m */; };
 		65B66D39179898DF00C4840B /* AGSMapView+UIKitRestoration.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */; };
+		65CC2CAC17B2A87400079F63 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 65CC2CA617B2A87400079F63 /* base64.c */; };
+		65CC2CAD17B2A87400079F63 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CC2CA917B2A87400079F63 /* NSData+SRB64Additions.m */; };
+		65CC2CAE17B2A87400079F63 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CC2CAB17B2A87400079F63 /* SRWebSocket.m */; };
 		65D5B926178F69F700FBC679 /* AGSStreamServiceAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */; };
 		65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B946178F714200FBC679 /* CFNetwork.framework */; };
 		65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5B948178F714C00FBC679 /* libicucore.dylib */; };
@@ -23,7 +26,6 @@
 		65E02494179F12FB0086A48B /* time.png in Resources */ = {isa = PBXBuildFile; fileRef = 65E02490179F12FB0086A48B /* time.png */; };
 		65E02495179F12FB0086A48B /* time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65E02491179F12FB0086A48B /* time@2x.png */; };
 		65F1AAD017909C990069BAE1 /* AGSFlightGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = 65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */; };
-		65FDE5B51791127B00BB0997 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FDE5AE1791122200BB0997 /* libSocketRocket.a */; };
 		D985806417A067CC003A7DAD /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D985805D17A067CC003A7DAD /* DDASLLogger.m */; };
 		D985806517A067CC003A7DAD /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D985805F17A067CC003A7DAD /* DDFileLogger.m */; };
 		D985806617A067CC003A7DAD /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D985806117A067CC003A7DAD /* DDLog.m */; };
@@ -52,37 +54,6 @@
 		E158FFBD16FE6141009BC1C6 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E158FFBC16FE6141009BC1C6 /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		65FDE5AD1791122200BB0997 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6B2082D1450F597009315AF;
-			remoteInfo = SocketRocket;
-		};
-		65FDE5AF1791122200BB0997 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F668C880153E91210044DBAC;
-			remoteInfo = SocketRocketOSX;
-		};
-		65FDE5B11791122200BB0997 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6BDA802145900D200FE3253;
-			remoteInfo = SRWebSocketTests;
-		};
-		65FDE5B31791122200BB0997 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F62417E314D52F3C003CE997;
-			remoteInfo = TestChat;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		650BF7EC179DF0EC00EA57E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		650BF7EF179DF0FB00EA57E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -98,6 +69,12 @@
 		65B66D38179898DF00C4840B /* AGSMapView+UIKitRestoration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGSMapView+UIKitRestoration.m"; sourceTree = "<group>"; };
 		65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AGSGraphicsLayer+StreamLayer.h"; sourceTree = "<group>"; };
 		65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AGSGraphicsLayer+StreamLayer.m"; sourceTree = "<group>"; };
+		65CC2CA617B2A87400079F63 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = base64.c; path = Submodules/SocketRocket/SocketRocket/base64.c; sourceTree = SOURCE_ROOT; };
+		65CC2CA717B2A87400079F63 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base64.h; path = Submodules/SocketRocket/SocketRocket/base64.h; sourceTree = SOURCE_ROOT; };
+		65CC2CA817B2A87400079F63 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SRB64Additions.h"; path = "Submodules/SocketRocket/SocketRocket/NSData+SRB64Additions.h"; sourceTree = SOURCE_ROOT; };
+		65CC2CA917B2A87400079F63 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+SRB64Additions.m"; path = "Submodules/SocketRocket/SocketRocket/NSData+SRB64Additions.m"; sourceTree = SOURCE_ROOT; };
+		65CC2CAA17B2A87400079F63 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWebSocket.h; path = Submodules/SocketRocket/SocketRocket/SRWebSocket.h; sourceTree = SOURCE_ROOT; };
+		65CC2CAB17B2A87400079F63 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWebSocket.m; path = Submodules/SocketRocket/SocketRocket/SRWebSocket.m; sourceTree = SOURCE_ROOT; };
 		65D5B924178F69F700FBC679 /* AGSStreamServiceAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSStreamServiceAdaptor.h; sourceTree = "<group>"; };
 		65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSStreamServiceAdaptor.m; sourceTree = "<group>"; };
 		65D5B946178F714200FBC679 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -108,8 +85,6 @@
 		65E02491179F12FB0086A48B /* time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time@2x.png"; sourceTree = "<group>"; };
 		65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSFlightGraphic.h; sourceTree = "<group>"; };
 		65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGSFlightGraphic.m; sourceTree = "<group>"; };
-		65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = Submodules/SocketRocket/SocketRocket.xcodeproj; sourceTree = "<group>"; };
-		65FDE5B61791128C00BB0997 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWebSocket.h; path = ../Submodules/SocketRocket/SocketRocket/SRWebSocket.h; sourceTree = "<group>"; };
 		D985805C17A067CC003A7DAD /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
 		D985805D17A067CC003A7DAD /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
 		D985805E17A067CC003A7DAD /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
@@ -152,7 +127,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65FDE5B51791127B00BB0997 /* libSocketRocket.a in Frameworks */,
 				65D5B949178F714C00FBC679 /* libicucore.dylib in Frameworks */,
 				65D5B947178F714200FBC679 /* CFNetwork.framework in Frameworks */,
 				D9A8B11B16BB27BF001653EE /* OpenGLES.framework in Frameworks */,
@@ -176,7 +150,6 @@
 		65839AB21791896F009044AE /* AGSStreaming */ = {
 			isa = PBXGroup;
 			children = (
-				65FDE5B61791128C00BB0997 /* SRWebSocket.h */,
 				65C136B117907D63000154B4 /* AGSGraphicsLayer+StreamLayer.h */,
 				65C136B217907D63000154B4 /* AGSGraphicsLayer+StreamLayer.m */,
 				65B66CE11796EC6000C4840B /* AGSFeatureLayer+StreamLayer.h */,
@@ -185,21 +158,23 @@
 				65D5B925178F69F700FBC679 /* AGSStreamServiceAdaptor.m */,
 				65B66CDA1796EAD900C4840B /* AGSStreamLayerOptions.h */,
 				65B66CDB1796EAD900C4840B /* AGSStreamLayerOptions.m */,
-				65B66CE41797018500C4840B /* layerDefinition.json */,
 				65B66CE61797019A00C4840B /* featureSet.json */,
+				65E8977A17A316830037C5BB /* SocketRocket */,
 			);
 			name = AGSStreaming;
 			sourceTree = "<group>";
 		};
-		65FDE5A71791122200BB0997 /* Products */ = {
+		65E8977A17A316830037C5BB /* SocketRocket */ = {
 			isa = PBXGroup;
 			children = (
-				65FDE5AE1791122200BB0997 /* libSocketRocket.a */,
-				65FDE5B01791122200BB0997 /* SocketRocket.framework */,
-				65FDE5B21791122200BB0997 /* SRWebSocketTests.octest */,
-				65FDE5B41791122200BB0997 /* TestChat.app */,
+				65CC2CAA17B2A87400079F63 /* SRWebSocket.h */,
+				65CC2CAB17B2A87400079F63 /* SRWebSocket.m */,
+				65CC2CA617B2A87400079F63 /* base64.c */,
+				65CC2CA717B2A87400079F63 /* base64.h */,
+				65CC2CA817B2A87400079F63 /* NSData+SRB64Additions.h */,
+				65CC2CA917B2A87400079F63 /* NSData+SRB64Additions.m */,
 			);
-			name = Products;
+			name = SocketRocket;
 			sourceTree = "<group>";
 		};
 		D985805717A066E1003A7DAD /* Lumberjack */ = {
@@ -221,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				D9F3D1B31668271A00FB6A8D /* Source */,
-				65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */,
 				D9F3D1AC1668271A00FB6A8D /* Frameworks */,
 				D9F3D1AA1668271A00FB6A8D /* Products */,
 			);
@@ -267,6 +241,7 @@
 				D9F3D1CC1668271A00FB6A8D /* StreamLayerSampleViewController.m */,
 				65B66CE71797210C00C4840B /* FlightTimewindowSampleViewController.h */,
 				65B66CE81797210C00C4840B /* FlightTimewindowSampleViewController.m */,
+				65B66CE41797018500C4840B /* layerDefinition.json */,
 				65F1AACD17909BBC0069BAE1 /* AGSFlightGraphic.h */,
 				65F1AACE17909BBC0069BAE1 /* AGSFlightGraphic.m */,
 				65839AB21791896F009044AE /* AGSStreaming */,
@@ -344,49 +319,12 @@
 			mainGroup = D9F3D19E1668271900FB6A8D;
 			productRefGroup = D9F3D1AA1668271A00FB6A8D /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 65FDE5A71791122200BB0997 /* Products */;
-					ProjectRef = 65FDE5A61791122200BB0997 /* SocketRocket.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				D9F3D1A81668271A00FB6A8D /* StreamLayer */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		65FDE5AE1791122200BB0997 /* libSocketRocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSocketRocket.a;
-			remoteRef = 65FDE5AD1791122200BB0997 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		65FDE5B01791122200BB0997 /* SocketRocket.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SocketRocket.framework;
-			remoteRef = 65FDE5AF1791122200BB0997 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		65FDE5B21791122200BB0997 /* SRWebSocketTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SRWebSocketTests.octest;
-			remoteRef = 65FDE5B11791122200BB0997 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		65FDE5B41791122200BB0997 /* TestChat.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TestChat.app;
-			remoteRef = 65FDE5B31791122200BB0997 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D9F3D1A71668271A00FB6A8D /* Resources */ = {
@@ -417,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D985806617A067CC003A7DAD /* DDLog.m in Sources */,
 				65B66CE31796EC6000C4840B /* AGSFeatureLayer+StreamLayer.m in Sources */,
 				65B66CE91797210C00C4840B /* FlightTimewindowSampleViewController.m in Sources */,
 				650C31571790866900882CBC /* AGSGraphicsLayer+StreamLayer.m in Sources */,
@@ -429,8 +368,10 @@
 				65B66D39179898DF00C4840B /* AGSMapView+UIKitRestoration.m in Sources */,
 				D985806417A067CC003A7DAD /* DDASLLogger.m in Sources */,
 				D985806517A067CC003A7DAD /* DDFileLogger.m in Sources */,
-				D985806617A067CC003A7DAD /* DDLog.m in Sources */,
 				D985806717A067CC003A7DAD /* DDTTYLogger.m in Sources */,
+				65CC2CAC17B2A87400079F63 /* base64.c in Sources */,
+				65CC2CAD17B2A87400079F63 /* NSData+SRB64Additions.m in Sources */,
+				65CC2CAE17B2A87400079F63 /* SRWebSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,7 +428,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
@@ -510,6 +451,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -526,11 +468,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/StreamLayer-Prefix.pch";
 				INFOPLIST_FILE = "Source/StreamLayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
-					"-all_load",
 					"-ObjC",
+					"-all_load",
 					"-framework",
 					ArcGIS,
 				);
@@ -548,11 +490,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/StreamLayer-Prefix.pch";
 				INFOPLIST_FILE = "Source/StreamLayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
-					"-all_load",
 					"-ObjC",
+					"-all_load",
 					"-framework",
 					ArcGIS,
 				);

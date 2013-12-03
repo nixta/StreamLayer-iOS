@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j5e-yB-pFg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j5e-yB-pFg">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Flight Timewindow Sample View Controller - Time Aware Flights-->
@@ -9,11 +10,11 @@
             <objects>
                 <viewController storyboardIdentifier="Flights By Time VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mX8-yE-SvQ" customClass="FlightTimewindowSampleViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="Lxq-TC-Vtu">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" restorationIdentifier="MapView" id="Jiw-TI-hC0" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -51,11 +52,11 @@
             <objects>
                 <viewController storyboardIdentifier="Flight Streams VC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dTM-Js-f72" customClass="StreamLayerSampleViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" restorationIdentifier="MainView" id="2Vn-Px-fQI">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" restorationIdentifier="MapView" id="Xok-7R-YU7" customClass="AGSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="499"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -73,6 +74,22 @@
                                 </state>
                                 <connections>
                                     <action selector="toggleConnection:" destination="dTM-Js-f72" eventType="touchUpInside" id="Vko-ft-1qx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eDs-ZK-ySO">
+                                <rect key="frame" x="224" y="476" width="76" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Pause">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pauseResume:" destination="dTM-Js-f72" eventType="touchUpInside" id="lKZ-Ai-Nui"/>
                                 </connections>
                             </button>
                             <view alpha="0.0" contentMode="scaleToFill" id="5oE-Kt-LcP">
@@ -95,6 +112,7 @@
                     <tabBarItem key="tabBarItem" title="Stream Flights" image="plane.png" id="mJs-13-VIW"/>
                     <connections>
                         <outlet property="mapView" destination="Xok-7R-YU7" id="7cs-vl-LWV"/>
+                        <outlet property="pauseResumeButton" destination="eDs-ZK-ySO" id="kGq-mf-IGh"/>
                         <outlet property="toggleConnectionButton" destination="pd9-Vp-s0j" id="Ob0-xi-n9V"/>
                         <outlet property="trackingLabel" destination="fB7-3I-MdM" id="4YO-P5-lhW"/>
                         <outlet property="trackingView" destination="5oE-Kt-LcP" id="Nho-X2-8Pd"/>
